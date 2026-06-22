@@ -36,7 +36,8 @@ Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, int e, int l
         int Entidad::getLvl(){
         return nivel;
         }
-       
+        int Entidad::getMana(){
+	return vida + ataque + defensa;
 
 // metodos puros
 
