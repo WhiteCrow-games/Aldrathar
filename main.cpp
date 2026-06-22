@@ -12,16 +12,16 @@ using namespace std;
 //---------------     -nonbre--apellido-profecion--ataque-vid--def-vel-altura--peso-edad--lvl--
     Humano humano1("Atheon","Cristals", "Guerrero", 136, 100, 67, 7, 189.5, 58.7, 35, 26);
     Humano humano2("Rose","Mor", "Guerrero", 110, 100, 61, 6, 150.5, 48.7, 25, 16);
-    
-    
+
+
 
     //-----------------------------------------
 //                     tipo      nombre     a    v   d   v  p    al    e   lvl
     Goblin goblin[2] = {
-    Goblin("Goblin", "de Montaña", 35, 90, 45, 5, 45.8, 1.23, 16, 5),
-    Goblin("Goblin", "de Pantano", 35, 90, 45, 5, 45.8, 1.23, 16, 5)
+    Goblin("Goblin", "de Montaña", 35, 190, 45, 5, 45.8, 1.23, 16, 5),
+    Goblin("Goblin", "de Pantano", 35, 170, 45, 5, 45.8, 1.23, 16, 5)
 };
-    
+
        //-----------------------------------------
    cout << "-----------Sistema de juego ------------\n" << endl;
    cout << "Lista Heroes: " << endl;
@@ -33,7 +33,7 @@ cout << "\n2. ";
 humano2.mostrarDatosMenu();
   Humano *heroActual = nullptr; //creacion de puntero
    int seleccion;
-   
+
    cin >> seleccion;
        switch(seleccion){
        case 1:
@@ -50,7 +50,7 @@ humano2.mostrarDatosMenu();
        heroActual->mostrarDatos();}
     else{
        cout<< "no valido" << endl;
-       
+
        cin.get();
        cin.get();
     }

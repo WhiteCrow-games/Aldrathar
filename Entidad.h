@@ -27,6 +27,7 @@ class Entidad{
                 float getPeso();
                 int getEdad();
                 int getLvl();
+		int getMana();
 
                 void atacar(string nombre_);
                 void recibirDanio(int cantidad);
