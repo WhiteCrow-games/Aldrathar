@@ -1,7 +1,7 @@
 #include <string>
 #include "Entidad.h"
 
-Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, int e, int l
+Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, float al, int e, int l, int mgi
 ){
     nombre = n;
     ataque = a;
@@ -9,8 +9,10 @@ Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, int e, int l
     defensa = d;
     velocidad = vel;
     peso = p;
+    altura = al;
     edad = e;
     nivel = l;
+    magia = mgi;
 }
         int Entidad::getDefensa(){
                 return defensa;
@@ -36,6 +38,9 @@ Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, int e, int l
         int Entidad::getLvl(){
         return nivel;
         }
+	int Entidad::getMagia(){
+	return magia;
+	}
         int Entidad::getMana(){
 	return vida + ataque + defensa;
 	}

@@ -9,15 +9,27 @@ using namespace std;
   class Humano : public Entidad {
     private:
         string apellido;
-        float altura;
         string prof;
 
     public:
-        Humano(string n,string ap, string pr, int a, int v, int d, int vel, float p, float al, int e, int l);
+        Humano(
+		string n,
+		string ap,
+		string pr,
+		int v,
+		int a,
+		int d,
+		int vel,
+		float p,
+		float al,
+		int e,
+		int l,
+		int mgi
+			);
 
     string getApellido();
-    float getAltura();
     string getProf();
 };
 
 #endif
+

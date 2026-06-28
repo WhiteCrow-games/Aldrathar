@@ -1,5 +1,5 @@
 #include "Goblin.h"
-Goblin::Goblin(
+	Goblin::Goblin(
     string t,
     string n,
     int v,
@@ -9,18 +9,16 @@ Goblin::Goblin(
     float p,
     float al,
     int e,
-    int l
+    int l,
+    int mgi
 )
-: Entidad(n, a, v, d, vel, p, e, l)
+: Entidad(n, a, v, d, vel, p, al, e, l, mgi)
 {
     tipo = t;
-    altura = al;
+
 }
 
 string Goblin::getTipo() {
     return tipo;
 }
 
-float Goblin::getAltura() {
-    return altura;
-}

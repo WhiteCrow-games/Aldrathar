@@ -6,11 +6,10 @@
 class Goblin : public Entidad {
 private:
     string tipo;
-    float altura;
 
 public:
     Goblin(
-        string t,
+        string t,	//tipo-goblin
         string n,
         int v,
         int a,
@@ -19,11 +18,11 @@ public:
         float p,
         float al,
         int e,
-        int l
+        int l,
+	int mgi
     );
 
     string getTipo();
-    float getAltura();
 };
 
 #endif

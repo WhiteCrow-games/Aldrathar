@@ -12,17 +12,17 @@ int vel,
 float p,
 float al,
 int e,
-int l) : Entidad(n, a, v, d, vel, p, e, l){
+int l,
+int mgi) : Entidad(n, a, v, d, vel, p, al, e, l, mgi){
    apellido = ap;
-   altura = al;
    prof = pr;
 }
 
-        string Humano ::getApellido(){
-        return apellido;}
 
-        float Humano::getAltura() {
-        return altura; }
+        string Humano ::getApellido(){
+        return apellido;
+}
 
         string Humano::getProf(){
-        return prof; }
+        return prof;
+}
