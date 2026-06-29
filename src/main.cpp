@@ -1,3 +1,4 @@
+
 #include "Goblin.h"
 #include "Humano.h"
 #include "Entidad.h"
@@ -130,40 +131,53 @@ vector<Dragon> dragons;
    cout << "Lista Heroes: " << endl;
    cout << "\n Selecciona tu heroe: " << endl;
 
-	Entidad* entidades[7] = {
-    &humanos[0],
-    &humanos[1],
-    &goblins[0],
-    &goblins[1],
-    &dragons[0],
-    &dragons[1],
-    &golems[0]
-};
-	for(int i = 0;i<8; i++){
-		cout << entidades[i] << endl;
-	}
+	vector <Entidad*> entidades;
+	    entidades.push_back( &humanos[0]);
+	    entidades.push_back(&humanos[1]);
+	    entidades.push_back(&goblins[0]);
+	    entidades.push_back(&goblins[1]);
+	    entidades.push_back(&dragons[0]);
+	    entidades.push_back(&dragons[1]);
+	    entidades.push_back(&golems[0]);
 
-  Entidad  *heroActual = nullptr; //creacion de puntero
-   int slot1;
+	for(int i = 0; i < 7; i++){
+		cout << i+1  << ". "; entidades[i]->mostrarDatosMenu();}
+	int slot1;
+	cin >> slot1;
 
-   cin >> slot1;
+  Entidad *heroActual = nullptr; //creacion de puntero
 
-
-       switch(slot1){
+   switch(slot1){
        case 1:
-             heroActual = &humanos[1];
+             heroActual = &humanos[0];
            break;
        case 2:
-             heroActual  = &humanos[2];
+             heroActual  = &humanos[1];
            break;
+       case 3:
+		heroActual = &goblins[0];
+	break;
+	case 4:
+		heroActual = &goblins[1];
+	break;
+	case 5:
+		heroActual = &dragons[0];
+	break;
+	case 6:
+		heroActual = &dragons[1];
+	break;
+	case 7:
+		heroActual = &golems[0];
+	break;
+
        }
 
 
 
            limpiarPantalla();
 
-Entidad *
-objetivoActual = nullptr;
+Entidad *objetivoActual = nullptr;
+
            cout << "tu personaje es: " << endl;
    if(heroActual != nullptr){
        heroActual->mostrarDatos();}
@@ -172,32 +186,54 @@ objetivoActual = nullptr;
 
        cin.get();
        cin.get();
-    }
-     
-/*
+    };
+	vector <Entidad*> teamEnemigo;
+    teamEnemigo.push_back( &humanos[0]);
+    teamEnemigo.push_back(&humanos[1]);
+    teamEnemigo.push_back(&goblins[0]);
+    teamEnemigo.push_back(&goblins[1]);
+    teamEnemigo.push_back(&dragons[0]);
+    teamEnemigo.push_back(&dragons[1]);
+    teamEnemigo.push_back(&golems[0]);
+
            cout << "Selecciona tu oponente: " << endl;
-   for(int i = 0; i < 2; i++){
-           cout << i+1 << "  -------------------------------------\n" <<endl;
-    goblin[i].mostrarDatosMenu();
+   for(int i = 0; i < teamEnemigo.size(); i++){
+         cout << i+1 <<  ". "; teamEnemigo[i]->mostrarDatos();
 }
-   int b;
-   cin >> b;
-        switch(b){
-        case 1:
-            objetivoActual = &goblin[0];
-        break;
+   int slot4;
+   cin >> slot4;
+        switch(slot4){
+	case 1:
+	 	objetivoActual = teamEnemigo[0];
+        	break;
         case 2:
-            objetivoActual = &goblin[1];
-        break;
+		objetivoActual = teamEnemigo[1];
+		break;
+        case 3:
+		objetivoActual = teamEnemigo[3];
+        	break;
+        case 4:
+		objetivoActual = teamEnemigo[4];
+                break;
+        case 5:
+		objetivoActual = teamEnemigo[5];
+	        break;
+	case 6:
+		objetivoActual = teamEnemigo[6];
+		break;
+	case 7:
+		objetivoActual = teamEnemigo[7];
+		}
+	limpiarPantalla();
 
-       limpiarPantalla();
-      cout << "\n------------Iniciar combate------------" << endl;
-
+cout << "\n------------Iniciar combate------------" << endl;
     int turno = 1;
-   if(heroActual == nullptr || objetivoActual == nullptr){
-    cout << "Seleccion invalida." << endl;
-    return 0;
-}
+        if(heroActual == nullptr || objetivoActual == nullptr){
+
+             cout << "Seleccion invalida." << endl;
+return 0;
+      }
+
     while (heroActual->getVida() > 0 && objetivoActual->getVida() > 0) {
         cout << "\n---------------Turno " << turno <<  "----------------\n" << endl;
         heroActual->atacar(objetivoActual->getNombre());
@@ -205,7 +241,6 @@ objetivoActual = nullptr;
 
        if (objetivoActual->getVida() <= 0) {
            cout << objetivoActual->getNombre() << " ha sido derrotado." << endl;
-            break;
             }
        objetivoActual->atacar(heroActual->getNombre());
        heroActual->recibirDanio(objetivoActual->getAtaque());
@@ -220,7 +255,6 @@ objetivoActual = nullptr;
        cout << "Vida de " << objetivoActual->getNombre() << ": " << objetivoActual->getVida() << endl;
 
         turno++;
-       }
-*/
+}
    return 0;
-   }
+}

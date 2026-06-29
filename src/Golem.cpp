@@ -15,7 +15,7 @@ Golem::Golem (
 	    int l,
 	    int mgi
 )
-: Entidad(n, v, a, d, vel, p, al, e, l, mgi)
+: Entidad(n, a, v, d, vel, p, al, e, l, mgi)
 {
     elemento = ele;
     material = m;
