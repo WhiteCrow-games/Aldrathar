@@ -14,33 +14,33 @@ using namespace std;
 //------------------------------------------------
 	vector<Humano> humanos;
 
-		humanos.emplace_back(
-			"Atheon",	//n
-			"Cristals",	//ap
-			"Guerrero",	//pr
-			136,		//v
-			100,		//a
-			67,		//d
-			7,		//vel
-			189.5,		//al
-			58.7,		//peso
-			35,		//edad
-			26,		//nivel
-			10		//magia
+	humanos.emplace_back(
+		"Atheon",	//n
+		"Cristals",	//ap
+		"Guerrero",	//pr
+		136,		//v
+		100,		//a
+		67,		//d
+		7,		//vel
+		189.5,		//al
+		58.7,		//peso
+		35,		//edad
+		26,		//nivel
+		10		//magia
 );
-		humanos.emplace_back(
-			"Rose",
-			"Mor",
-			"Guerrero",
-			110,
-			100,
-			61,
-			6,
-			150.5,
-			48.7,
-			16,
-			34,
-			10
+	humanos.emplace_back(
+		"Rose",
+		"Mor",
+		"Guerrero",
+		110,
+		100,
+		61,
+		6,
+		150.5,
+		48.7,
+		16,
+		34,
+		10
 );
 //-------------------------------------------
 	vector <Goblin> goblins;
@@ -129,28 +129,41 @@ vector<Dragon> dragons;
    cout << "---------------Sistema de juego ------------\n" << endl;
    cout << "Lista Heroes: " << endl;
    cout << "\n Selecciona tu heroe: " << endl;
-/*
-(modificar esta parte) // el puntero tiene q ser creado para  el primer slot de team
-  Humano *heroActual = nullptr; //creacion de puntero
-   int seleccio
 
-   cin >> principal;
+	Entidad* entidades[7] = {
+    &humanos[0],
+    &humanos[1],
+    &goblins[0],
+    &goblins[1],
+    &dragons[0],
+    &dragons[1],
+    &golems[0]
+};
+	for(int i = 0;i<8; i++){
+		cout << entidades[i] << endl;
+	}
 
-// condicional para poner todos Entidad
+  Entidad  *heroActual = nullptr; //creacion de puntero
+   int slot1;
 
-       switch(principal){
+   cin >> slot1;
+
+
+       switch(slot1){
        case 1:
- //              heroActual = &humano1;
+             heroActual = &humanos[1];
            break;
        case 2:
- //              heroActual = &humano2;
+             heroActual  = &humanos[2];
            break;
        }
 
 
 
            limpiarPantalla();
- (clase o vector teamEnemigo)objetivoActual = nullptr;
+
+Entidad *
+objetivoActual = nullptr;
            cout << "tu personaje es: " << endl;
    if(heroActual != nullptr){
        heroActual->mostrarDatos();}
@@ -160,8 +173,8 @@ vector<Dragon> dragons;
        cin.get();
        cin.get();
     }
-                limpiarPantalla();
-
+     
+/*
            cout << "Selecciona tu oponente: " << endl;
    for(int i = 0; i < 2; i++){
            cout << i+1 << "  -------------------------------------\n" <<endl;

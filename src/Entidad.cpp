@@ -52,8 +52,8 @@ Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, float al, int
 
         void Entidad::mostrarDatosMenu() {
     cout << nombre << endl;
-    cout << "vida: " << vida << endl;
-    cout << "ataque: " << ataque << endl;
+    cout << "    Vida: " << vida << "	Atk: " << ataque
+	 << " Defensa: " << defensa << "	Lvl: " << nivel << endl;
 }
 
         void Entidad::mostrarDatos() {
