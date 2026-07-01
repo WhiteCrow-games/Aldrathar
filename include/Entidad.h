@@ -38,7 +38,7 @@ class Entidad{
                 void mostrarDatosMenu();
                 void mostrarDatos();
                 void name();
-
+		void morir();
         };
 
 #endif

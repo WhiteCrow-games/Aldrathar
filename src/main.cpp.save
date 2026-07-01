@@ -74,21 +74,8 @@ vector<Dragon> dragons;
 );
 //---------------------------------------------------------------------------------
 		vector <Golem> golems;
-	golems.emplace_back(
-			"Tierra",
-			"Golem",
-			"Piedra",
-			"Ambar",
-			200,
-			64,
-			300,
-			20,
-			1874,
- 			2.58,
-			1000,
-			34,
-			20	//magia
-);
+	golems.emplace_back("Tierra", "Golem",
+			"Piedra", "Ambar", 200, 64, 300, 20, 1874, 2.58, 1000, 34, 20);
 //  	golems.push_back("Golem","del hierro",);
 //--------------------------------------------------------------------------------
 

@@ -45,7 +45,10 @@ Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, float al, int
 	return vida + ataque + defensa;
 	}
 // metodos puros
+	void Entidad::morir(){
+		cout << "\n" << nombre << " ha muerto!!!" << endl;
 
+}
     void Entidad::atacar(string nombre_) {
             cout << "\n-" << nombre << " ataca a " << nombre_ << endl;
 }
@@ -73,6 +76,6 @@ Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, float al, int
 
     if (vida <= 0) {
         vida = 0;
-       cout << nombre << " ha sido derrotado.\n";
+       morir();
     }
 }
