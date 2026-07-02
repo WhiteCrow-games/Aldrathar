@@ -10,12 +10,13 @@ Hipogrifo::Hipogrifo(
     int vel,
     float p,
     float al,
+int i,
     float env,
     int e,
     int l,
     int mgi
 )
-: Entidad(n, a, v, d, vel, p, al, e, l, mgi)
+: Entidad(n, a, v, d, vel, p, al, i,  e, l, mgi)
 {
     colorPlumas = color;
     tipoVuelo = vuelo;

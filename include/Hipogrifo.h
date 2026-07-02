@@ -20,6 +20,7 @@ public:
         int vel,
         float p,
         float al,
+	int i,
         float env,
         int e,
         int l,

@@ -8,11 +8,12 @@
     int vel,
     float p,
     float al,
+	int i,
     int e,
     int l,
     int mgi
 )
-: Entidad(n, a, v, d, vel, p, al, e, l, mgi)
+: Entidad(n, a, v, d, vel, p, al, i, e, l, mgi)
 {
     tipo = t;
 

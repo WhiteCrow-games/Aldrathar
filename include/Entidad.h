@@ -15,11 +15,12 @@ class Entidad{
                 int velocidad;
                 float peso;
 		float altura;
+		int inteligencia;
                 int edad;
                 int nivel;
 		int magia;
         public:
-              Entidad(string n, int a, int v, int d, int vel, float p, float al, int e, int l, int mgi);
+              Entidad(string n, int a, int v, int d, int vel, float p, float al, int i, int e, int l, int mgi);
 
                 string getNombre();
                 int getAtaque();
@@ -28,6 +29,7 @@ class Entidad{
                 int getVelocidad();
                 float getPeso();
 		float getAltura();
+		int getInteligencia();
                 int getEdad();
                 int getLvl();
 		int getMana();
@@ -39,6 +41,7 @@ class Entidad{
                 void mostrarDatos();
                 void name();
 		void morir();
+		void ataqueEspecial();
         };
 
 #endif

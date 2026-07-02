@@ -11,9 +11,10 @@ int d,
 int vel,
 float p,
 float al,
+int i,
 int e,
 int l,
-int mgi) : Entidad(n, a, v, d, vel, p, al, e, l, mgi){
+int mgi) : Entidad(n, a, v, d, vel, p, al, i, e, l, mgi){
    apellido = ap;
    prof = pr;
 }

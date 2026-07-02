@@ -17,6 +17,7 @@ public:
         int vel,
         float p,
         float al,
+	int i,
         int e,
         int l,
 	int mgi

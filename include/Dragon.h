@@ -20,6 +20,7 @@ class Dragon : public Entidad {
 		int vel,
 		float p,
 		float al,
+		int i,
 		float log,	//dragon
 		int e,
 		int l,

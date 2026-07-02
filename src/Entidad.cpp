@@ -1,7 +1,7 @@
 #include <string>
 #include "Entidad.h"
 
-Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, float al, int e, int l, int mgi
+Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, float al, int i, int e, int l, int mgi
 ){
     nombre = n;
     ataque = a;
@@ -10,6 +10,7 @@ Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, float al, int
     velocidad = vel;
     peso = p;
     altura = al;
+	inteligencia = i;
     edad = e;
     nivel = l;
     magia = mgi;
@@ -35,6 +36,12 @@ Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, float al, int
         int Entidad::getEdad(){
         return edad;
         }
+	int Entidad::getInteligencia(){
+	return inteligencia;
+	}
+	float Entidad::getAltura(){
+	return altura;
+	}
         int Entidad::getLvl(){
         return nivel;
         }
@@ -42,9 +49,13 @@ Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, float al, int
 	return magia;
 	}
         int Entidad::getMana(){
-	return vida + ataque + defensa;
+	return inteligencia + ataque + velocidad;
 	}
+
 // metodos puros
+	void Entidad::ataqueEspecial(){
+		cout << "\n" << nombre << "ha usado ataque especial" << endl;
+	}
 	void Entidad::morir(){
 		cout << "\n" << nombre << " ha muerto!!!" << endl;
 

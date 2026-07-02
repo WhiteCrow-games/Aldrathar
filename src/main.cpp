@@ -15,27 +15,14 @@ using namespace std;
         int main(){
 //------------------------------------------------
 	vector<Humano> humanos;
- //humanos.empace_back(nombre-apellido-profesion-vida-ataque-defensa-velocidad-altura-peso-edad-nivel-magia--
-	humanos.emplace_back("Atheon","Cristals","Guerrero", 200, 100, 67, 7, 189.5, 58.7, 35,26,10);
-	humanos.emplace_back("Rose", "Mor", "Guerrero", 200, 100, 61, 6, 150.5, 48.7, 16, 34, 10);
-//-------------------------------------------
+ //humanos.empace_back(nombre-apellido-profesion-	     v   -a   -d   -v  -al   -i   -p   -e  -lvl -m--
+	humanos.emplace_back("Atheon","Cristals","Guerrero", 200, 100, 67, 40, 191.5, 64, 58.7, 35, 26, 10);
+	humanos.emplace_back("Rose", "Mor", "Guerrero",	     200, 100, 61, 67, 150.5, 64, 46.8, 48, 16, 10);
+//-------------------------------------------s
 	vector <Goblin> goblins;
 
-    		goblins.emplace_back("Maldito",
-			"Goblin", 190, 89,45, 5, 78.6, 1.23, 16, 5, 10);
-	       goblins.emplace_back(
-			"de Pantano",
-			"Goblin",
-			170,
-			100,
-			45,
-			5,
-			57.1,
-			1.23,
-			16,
-			5,
-			10
-);
+    		goblins.emplace_back("Maldito","Goblin",    190, 89,  45, 5, 78.6, 1.23, 41, 16, 5, 10);
+	       goblins.emplace_back("de Pantano", "Goblin", 170, 100, 45, 5, 57.1, 1.23, 38, 16, 5, 10);
 //-------------------------------------------------------------------------------
 
 vector<Dragon> dragons;
@@ -46,16 +33,16 @@ vector<Dragon> dragons;
    			"Ancestral",   // tipo
     			"Arena",       // subElemento
     			460,           // vida
-    			400,           // ataque
-   			500,           // defensa
-    			86,            // velocidad
-    			4000,          // peso
+    			100,           // ataque
+   			243,           // defensa
+    			47,            // velocidad
+    			4230,          // peso
 	 		4.8,           // altura
+			79,
  			12.7,          // longitud
-  			600,           // edad
-    			36,            // nivel
-			40		//magia
-);
+  			713,           // edad
+    			71,            // nivel
+			55);
 		  dragons.emplace_back(
 			"Galla",	//nombre
 			"Fuego",	//elemento
@@ -67,6 +54,7 @@ vector<Dragon> dragons;
 			50, 		//vel
 			97.5, 		//peso
 			2.6, 		//altura
+			57,
 			5.2, 		// longitud
 			140, 		//edad
 			21,		//nivel
@@ -85,6 +73,7 @@ vector<Dragon> dragons;
 			20,
 			1874,
  			2.58,
+			20,
 			1000,
 			34,
 			20	//magia
@@ -104,6 +93,7 @@ hipogrifos.emplace_back(
     75,           // velocidad
     620.0,        // peso
     2.4,          // altura
+	69, // inteligencia
     6.8,          // envergadura
     45,           // edad
     18,           // nivel
@@ -227,9 +217,8 @@ cout << "\n------------Iniciar combate------------" << endl;
 
 return 0;
       }
-
     while (heroActual->getVida() > 0 && objetivoActual->getVida() > 0) {
-
+limpiarPantalla();
         cout << "\n---------------Turno " << turno <<  "----------------\n" << endl;
 
 
@@ -237,7 +226,7 @@ return 0;
         objetivoActual->recibirDanio(heroActual->getAtaque());
 
        if (objetivoActual->getVida() <= 0) {
-           cout << objetivoActual->getNombre() << " a soltado item" << endl;
+           cout << objetivoActual->getNombre() << " ha muerto" << endl;
             }
        objetivoActual->atacar(heroActual->getNombre());
        heroActual->recibirDanio(objetivoActual->getAtaque());
@@ -252,6 +241,9 @@ return 0;
        cout << "Vida de " << objetivoActual->getNombre() << ": " << objetivoActual->getVida() << endl;
 
         turno++;
+cin.get();
+
+
 }
    return 0;
 }
