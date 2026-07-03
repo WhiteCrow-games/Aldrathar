@@ -1,4 +1,3 @@
-
 #include "Goblin.h"
 #include "Humano.h"
 #include "Entidad.h"
@@ -12,6 +11,42 @@ using namespace std;
                 system("clear");
 			}
 
+
+	void combatir(Entidad* heroActual, Entidad* objetivoActual){
+		cout << "\n------------Iniciar combate------------" << endl;
+    int turno = 1;
+        	if(heroActual == nullptr || objetivoActual == nullptr){
+			cout << "Seleccion invalida." << endl;
+return;
+ }
+		   while (heroActual->getVida() > 0 && objetivoActual->getVida() > 0){
+        limpiarPantalla();
+        cout << "\n---------------Turno " << turno <<  "----------------" << endl;
+
+        heroActual->atacar(objetivoActual->getNombre());
+        objetivoActual->recibirDanio(heroActual->getAtaque());
+
+       if (objetivoActual->getVida() <= 0) {
+           cout << objetivoActual->getNombre() << " ha muerto"  << endl;
+            break;
+}
+       objetivoActual->atacar(heroActual->getNombre());
+       heroActual->recibirDanio(objetivoActual->getAtaque());
+
+	if (heroActual->getVida() <= 0) {
+            cout << heroActual->getNombre() << " ha sido derrota" << endl;
+            break;
+        }
+
+       cout << "Vida de " << heroActual->getNombre() << ": " << heroActual->getVida() << endl;
+
+       cout << "Vida de " << objetivoActual->getNombre() << ": " << objetivoActual->getVida() << endl;
+cin.get();
+cin.get();
+        turno++;
+
+}
+}
         int main(){
 //------------------------------------------------
 	vector<Humano> humanos;
@@ -204,47 +239,13 @@ Entidad *objetivoActual = nullptr;
 		break;
 	case 8:
 		objetivoActual = teamEnemigo[7];
-	}
+		break;
+}
+
 	limpiarPantalla();
 
-cout << "\n------------Iniciar combate------------" << endl;
-    int turno = 1;
-        if(heroActual == nullptr || objetivoActual == nullptr){
-
-
-             cout << "Seleccion invalida." << endl;
-
-
-return 0;
-      }
-    while (heroActual->getVida() > 0 && objetivoActual->getVida() > 0) {
+ combatir(heroActual, objetivoActual);
 limpiarPantalla();
-        cout << "\n---------------Turno " << turno <<  "----------------\n" << endl;
-
-
-        heroActual->atacar(objetivoActual->getNombre());
-        objetivoActual->recibirDanio(heroActual->getAtaque());
-
-       if (objetivoActual->getVida() <= 0) {
-           cout << objetivoActual->getNombre() << " ha muerto" << endl;
-            }
-       objetivoActual->atacar(heroActual->getNombre());
-       heroActual->recibirDanio(objetivoActual->getAtaque());
-
-       if (heroActual->getVida() <= 0) {
-            cout << heroActual->getNombre() << " ha sido derrotado " << endl;
-            break;
-        }
-
-       cout << "Vida de " << heroActual->getNombre() << ": " << heroActual->getVida() << endl;
-
-       cout << "Vida de " << objetivoActual->getNombre() << ": " << objetivoActual->getVida() << endl;
-
-        turno++;
-cin.get();
-
-
-}
+cout << "Saliendo del juego..." << endl;
    return 0;
 }
-
