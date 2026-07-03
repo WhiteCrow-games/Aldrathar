@@ -38,7 +38,7 @@ return;
             break;
         }
 
-       cout << "Vida de " << heroActual->getNombre() << ": " << heroActual->getVida() << endl;
+       cout << "\nVida de " << heroActual->getNombre() << ": " << heroActual->getVida() << endl;
 
        cout << "Vida de " << objetivoActual->getNombre() << ": " << objetivoActual->getVida() << endl;
 cin.get();
@@ -46,6 +46,7 @@ cin.get();
         turno++;
 
 }
+cin.get();
 }
         int main(){
 //------------------------------------------------
@@ -158,30 +159,30 @@ hipogrifos.emplace_back(
 
   Entidad *heroActual = nullptr; //creacion de puntero
 	switch(slot1){
-       case 1:
+        case 1:
              heroActual = &humanos[0];
            break;
-       case 2:
+        case 2:
              heroActual  = &humanos[1];
            break;
-       case 3:
+        case 3:
                 heroActual = &goblins[0];
-        break;
+           break;
         case 4:
-                heroActual = &goblins[1];
-        break;
-      case 5:
+	        heroActual = &goblins[1];
+           break;
+        case 5:
                 heroActual = &dragons[0];
-        break;
+           break;
         case 6:
                 heroActual = &dragons[1];
-        break;
+           break;
         case 7:
                 heroActual = &golems[0];
-        break;
+           break;
 	case 8:
 		heroActual = &hipogrifos[0];
-	break;
+	   break;
 }
 
 
@@ -199,14 +200,14 @@ Entidad *objetivoActual = nullptr;
        cin.get();
     };
 	vector <Entidad*> teamEnemigo;
-    teamEnemigo.push_back( &humanos[0]);
+    teamEnemigo.push_back(&humanos[0]);
     teamEnemigo.push_back(&humanos[1]);
     teamEnemigo.push_back(&goblins[0]);
     teamEnemigo.push_back(&goblins[1]);
     teamEnemigo.push_back(&dragons[0]);
     teamEnemigo.push_back(&dragons[1]);
     teamEnemigo.push_back(&golems[0]);
-	teamEnemigo.push_back(&hipogrifos[0]);
+    teamEnemigo.push_back(&hipogrifos[0]);
 
            cout << "Selecciona tu oponente: " << endl;
    for(int i = 0; i < teamEnemigo.size(); i++){
@@ -244,7 +245,7 @@ Entidad *objetivoActual = nullptr;
 
 	limpiarPantalla();
 
- combatir(heroActual, objetivoActual);
+ 	combatir(heroActual, objetivoActual);
 limpiarPantalla();
 cout << "Saliendo del juego..." << endl;
    return 0;
