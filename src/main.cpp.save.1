@@ -26,45 +26,51 @@ limpiarPantalla();
 
        if (objetivoActual->getVida() <= 0){
 	cout << objetivoActual->getNombre() << " fue derrotado" << endl;
-           cin.get();
-	 break;	
-}
+            break;	}
 
 	objetivoActual->atacar(heroActual->getNombre());
 	heroActual->recibirDanio(objetivoActual->getAtaque());
 
 	if (heroActual->getVida() <= 0) {
             cout << "Tu personaje " << heroActual->getNombre() << " ha sido derrotado" << endl;
-cout << "_---_\n";
+		cout << " .-.\n";
 cout << "(o o)\n";
 cout << "| O \\\n";
 cout << " \\   \\\n";
 cout << "  `~~~'\n" << endl;
 
-		break;
-		}
+break;		}
 
 		cout << "\nVida de " << heroActual->getNombre() << ": " << heroActual->getVida() << endl;
 		cout << "Vida de " << objetivoActual->getNombre() << ": " << objetivoActual->getVida() << endl;
 
 cin.get();
-cout << "\n1. atacar";
-cout << "	2. inventario\n";
-cout << "	3. huir\n";
+cout << "1. atacar\n";
+cout << "2. inventario\n";
+cout << "3. huir\n";
 int a;
 cin>>a;
-if(a == 1){
-        turno++;}
-if(a == 2){
-limpiarPantalla();
-cout  << "inventario" << endl;
-cin.get();
+
+        turno++;
 }
-if(a == 3){
-break;	}
 cin.get();
 }//void
-} 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         int main(){
 Entidad *heroActual = nullptr; //creacion de puntero
@@ -73,7 +79,7 @@ Entidad *objetivoActual = nullptr;
 //ataque-vida-defensa-velocidad-peso-inteligencia-altura-edad-nivel-magia----|
 	vector<Humano> humanos;
 		humanos.emplace_back("Atheon","Cristals","Guerrero",
-99, 200, 67, 40, 64.6, 64, 175.1, 35, 26, 10);
+65, 200, 67, 40, 64.6, 64, 175.1, 35, 26, 10);
 		humanos.emplace_back("Roseline", "Kart", "Guerrero",
 152, 200, 20, 67, 46.8, 64, 169.9, 48, 16, 10);
 //vida-ataque-defensa-velocidad-peso-altura-inteligengia-edad-nivel-magia----|
@@ -96,7 +102,7 @@ Entidad *objetivoActual = nullptr;
 //----------------------------------------------
 	vector<Hipogrifo> hipogrifos;
 		hipogrifos.emplace_back("Aeris","Blanco","Planeador",
-289, 69, 90, 75, 620.1, 2.4, 69, 6.8, 45, 18, 30);
+289, 99, 90, 75, 620.1, 2.4, 69, 6.8, 45, 18, 30);
 
 //------------------------------------------------
 	vector <Entidad*> teamEnemigo;
@@ -112,12 +118,9 @@ Entidad *objetivoActual = nullptr;
     teamHeroes.push_back(&humanos[0]);
     teamHeroes.push_back(&humanos[1]);
 //primera ventana-----------------------------------------------
-while(true){
-int b = 1;
-limpiarPantalla();
-  cout << "---------------MENU PRINCIPAL------------\n" << endl;
+   cout << "---------------Sistema de juego ------------\n" << endl;
    cout << "Lista Heroes:\n " << endl;
-cout << "1. Atheon Crystals - Guerrero.\n2. Roseeline Karh - Maga.\n" << endl;
+cout << "1. Atheon Crystals - Guerrero.\n2. Rose Mor - Maga.\n" << endl;
 cout << "\n Selecciona tu heroe: " << endl;
 int opc;
 cin>>opc;
@@ -154,10 +157,11 @@ cin >>  op;
 //combate--------------------------------------------------------
 
 	combatir(heroActual, objetivoActual); // player vs machine
-if(heroActual->getVida() == 0){
-break;}
-b++;
-}
+
+
+
+//Fin del juego--------------------------------------------------
+cout << "Saliendo del juego..." << endl;
    return 0;
 }
 

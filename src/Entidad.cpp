@@ -58,21 +58,20 @@ Entidad::Entidad(string n, int a,  int v, int d, int vel, float p, float al, int
 	}
 	void Entidad::morir(){
 		cout << "\n" << nombre << " ha muerto!!!" << endl;
-
-}
+	}
     void Entidad::atacar(string nombre_) {
             cout << "\n-" << nombre << " ataca a " << nombre_ << endl;
 }
 
         void Entidad::mostrarDatosMenu() {
     cout << nombre << endl;
-    cout << "    Vida: " << vida << "	Atk: " << ataque
-       << "\n Defensa: " << defensa << "	Lvl: " << nivel << endl;
+    cout << "	   Vida: " << vida << "	Atk: " << ataque
+       << "\n	Defensa: " << defensa << "	Lvl: " << nivel << endl;
 }
 
-        void Entidad::mostrarDatos() {
-    cout << "\n" << nombre
-         << " " << vida << endl;
+        void Entidad::datosEnemigos() {
+    cout << nombre << "\n	hp: " << vida << " def: " << defensa <<  endl;
+    cout << "	vel: " << velocidad << "	atk: " << ataque << endl;
 }
 
         void Entidad::name() {

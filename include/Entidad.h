@@ -38,7 +38,7 @@ class Entidad{
                 void atacar(string nombre_);
                 void recibirDanio(int cantidad);
                 void mostrarDatosMenu();
-                void mostrarDatos();
+                void datosEnemigos();
                 void name();
 		void morir();
 		void ataqueEspecial();
