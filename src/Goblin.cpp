@@ -1,25 +1,14 @@
 #include "Goblin.h"
-	Goblin::Goblin(
-    string t,
+
+
+Goblin::Goblin(
     string n,
     int v,
-    int a,
-    int d,
-    int vel,
-    float p,
-    float al,
-	int i,
-    int e,
-    int l,
-    int mgi
+    int a
 )
-: Entidad(n, a, v, d, vel, p, al, i, e, l, mgi)
+:
+Criatura(n,v,a)
 {
-    tipo = t;
+
 
 }
-
-string Goblin::getTipo() {
-    return tipo;
-}
-

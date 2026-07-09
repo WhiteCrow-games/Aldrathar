@@ -2,35 +2,28 @@
 #define HUMANO_H
 
 #include "Entidad.h"
-#include <iostream>
-using namespace std;
 
 
-  class Humano : public Entidad {
-    private:
-        string apellido;
-        string prof;
+class Humano : public Entidad
+{
 
-    public:
-        Humano(
-		string n,
-		string ap,
-		string pr,
-		int v,
-		int a,
-		int d,
-		int vel,
-		float p,
-		float al,
-		int i,
-		int e,
-		int l,
-		int mgi
-			);
+private:
 
-    string getApellido();
-    string getProf();
+    string profesion;
+
+
+public:
+
+    Humano(
+        string n,
+        int v,
+        string p
+    );
+
+
+    string getProfesion();
+
 };
 
-#endif
 
+#endif

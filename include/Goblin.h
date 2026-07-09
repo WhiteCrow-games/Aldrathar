@@ -1,30 +1,23 @@
 #ifndef GOBLIN_H
 #define GOBLIN_H
 
-#include "Entidad.h"
+#include "Criatura.h"
 
-class Goblin : public Entidad {
-private:
-    string tipo;
+
+class Goblin : public Criatura
+{
+
 
 public:
+
     Goblin(
-        string t,	//tipo-goblin
         string n,
         int v,
-        int a,
-        int d,
-        int vel,
-        float p,
-        float al,
-	int i,
-        int e,
-        int l,
-	int mgi
+        int a
     );
 
-    string getTipo();
+
 };
 
-#endif
 
+#endif

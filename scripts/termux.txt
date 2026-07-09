@@ -1,1 +1,1 @@
-g++ src/*.cpp -Iinclude -o bin/rpg -> compilar proyecto	
+g++ src/*.cpp -Iinclude -o bin/Aldathar0.1

@@ -1,47 +1,35 @@
- 
 #ifndef ENTIDAD_H
 #define ENTIDAD_H
 
 #include <iostream>
 #include <string>
+
 using namespace std;
 
-class Entidad{
-        protected:
-                string nombre;
-                int ataque;
-                int vida;
-                int defensa;
-                int velocidad;
-                float peso;
-		float altura;
-		int inteligencia;
-                int edad;
-                int nivel;
-		int magia;
-        public:
-              Entidad(string n, int a, int v, int d, int vel, float p, float al, int i, int e, int l, int mgi);
 
-                string getNombre();
-                int getAtaque();
-                int getVida();
-                int getDefensa();
-                int getVelocidad();
-                float getPeso();
-		float getAltura();
-		int getInteligencia();
-                int getEdad();
-                int getLvl();
-		int getMana();
-		int getMagia();
+class Entidad
+{
 
-                void atacar(string nombre_);
-                void recibirDanio(int cantidad);
-                void mostrarDatosMenu();
-                void datosEnemigos();
-                void name();
-		void morir();
-		void ataqueEspecial();
-        };
+protected:
+
+    string nombre;
+
+    int vida;
+
+
+public:
+
+    Entidad(string n, int v);
+
+
+    string getNombre();
+
+    int getVida();
+
+
+    void recibirDanio(int dano);
+
+};
+
 
 #endif

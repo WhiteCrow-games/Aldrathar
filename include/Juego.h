@@ -1,23 +1,26 @@
+#ifndef JUEGO_H
+#define JUEGO_H
+
+#include <vector>
+
+#include "Entidad.h"
+#include "Humano.h"
+#include "Goblin.h"
+
 class Juego
 {
 private:
 
-    vector<Humano> humanos;
+    // Personajes del juego
+    std::vector<Humano> humanos;
+    std::vector<Goblin> goblins;
 
-    vector<Goblin> goblins;
+    // Equipos
+    std::vector<Entidad*> teamHeroes;
+    std::vector<Entidad*> teamEnemigos;
 
-    vector<Dragon> dragons;
-
-    vector<Golem> golems;
-
-    vector<Hipogrifo> hipogrifos;
-
-    vector<Entidad*> teamHeroes;
-
-    vector<Entidad*> teamEnemigo;
-
+    // Selección actual
     Entidad* heroActual;
-
     Entidad* enemigoActual;
 
 public:
@@ -26,12 +29,21 @@ public:
 
     void iniciar();
 
-    void menuPrincipal();
+private:
+
+    void crearPersonajes();
+
+    void crearEquipos();
+
+    void mostrarHeroes();
+
+    void mostrarEnemigos();
 
     void seleccionarHeroe();
 
     void seleccionarEnemigo();
 
     void combatir();
-
 };
+
+#endif
