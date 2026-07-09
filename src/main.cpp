@@ -27,7 +27,7 @@ limpiarPantalla();
        if (objetivoActual->getVida() <= 0){
 	cout << objetivoActual->getNombre() << " fue derrotado" << endl;
            cin.get();
-	 break;	
+	 break;
 }
 
 	objetivoActual->atacar(heroActual->getNombre());
@@ -35,11 +35,11 @@ limpiarPantalla();
 
 	if (heroActual->getVida() <= 0) {
             cout << "Tu personaje " << heroActual->getNombre() << " ha sido derrotado" << endl;
-cout << "_---_\n";
-cout << "(o o)\n";
-cout << "| O \\\n";
-cout << " \\   \\\n";
-cout << "  `~~~'\n" << endl;
+cout << " _---_ \n";
+cout << " (o o) \n";
+cout << " | O \\ \n";
+cout << " \\   \\ \n";
+cout << "  `~~~' \n" << endl;
 
 		break;
 		}
@@ -64,7 +64,12 @@ if(a == 3){
 break;	}
 cin.get();
 }//void
-} 
+}
+
+void heroList(){
+	for(int i = 0; i < teamHeroes.size(); i++){
+		cout << i+1 << ". " << teamHeroes->mostrarDatosMenu() << endl;
+	}
 
         int main(){
 Entidad *heroActual = nullptr; //creacion de puntero
@@ -116,9 +121,9 @@ while(true){
 int b = 1;
 limpiarPantalla();
   cout << "---------------MENU PRINCIPAL------------\n" << endl;
-   cout << "Lista Heroes:\n " << endl;
-cout << "1. Atheon Crystals - Guerrero.\n2. Roseeline Karh - Maga.\n" << endl;
+
 cout << "\n Selecciona tu heroe: " << endl;
+heroList();
 int opc;
 cin>>opc;
 	if(opc >= 1 && opc <= teamHeroes.size()){
