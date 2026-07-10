@@ -6,18 +6,19 @@
 #include "Entidad.h"
 #include "Humano.h"
 #include "Goblin.h"
+using namespace std;
 
 class Juego
 {
 private:
 
     // Personajes del juego
-    std::vector<Humano> humanos;
-    std::vector<Goblin> goblins;
+    vector<Humano> humanos;
+    vector<Goblin> goblins;
 
     // Equipos
-    std::vector<Entidad*> teamHeroes;
-    std::vector<Entidad*> teamEnemigos;
+    vector<Entidad*> teamHeroes;
+    vector<Entidad*> teamEnemigos;
 
     // Selección actual
     Entidad* heroActual;

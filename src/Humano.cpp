@@ -3,8 +3,8 @@
 
 Humano::Humano(
     string n,
-    int v,
-    string p
+    string p,
+	int v
 )
 :
 Entidad(n,v)

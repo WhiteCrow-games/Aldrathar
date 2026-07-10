@@ -16,8 +16,8 @@ public:
 
     Humano(
         string n,
-        int v,
-        string p
+        string p,
+	int v
     );
 
 
@@ -27,3 +27,4 @@ public:
 
 
 #endif
+

@@ -5,24 +5,19 @@
 using namespace std;
 
 
-Juego::Juego()
-{
-
+Juego::Juego(){
     heroActual = nullptr;
     enemigoActual = nullptr;
-
 }
-void Juego::iniciar()
-{
 
+void Juego::iniciar(){
     cout << "============================\n";
     cout << "       ALDRATHAR\n";
     cout << "============================\n";
 
-
-    crearPersonajes();
-
-    crearEquipos();
+	crearPersonajes();
+	 //VS
+	crearEquipos();
 
 
     cout << "Mundo preparado...\n";
@@ -33,82 +28,43 @@ void Juego::crearPersonajes()
 {
 
     humanos.emplace_back(
-        "Atheon",
-        "Cristals",
-        "Guerrero",
-        99,
-        200,
-        67,
-        40,
-        64.6,
-        64,
-        175.1,
-        35,
-        26,
-        10
+        "Cristals",	//nombre
+        "Guerrero",	//profecion
+        200		//vida
     );
 
 
     humanos.emplace_back(
-        "Roseline",
-        "Kart",
-        "Guerrero",
-        152,
-        200,
-        20,
-        67,
-        46.8,
-        64,
-        169.9,
-        48,
-        16,
-        10
+        "Roseline",	//nombre
+	"Mago",		//profecion
+        200		//vida
     );
 
 
     goblins.emplace_back(
-        "Maldito",
-        "Goblin",
-        99,
-        31,
-        45,
-        5,
-        78.6,
-        1.23,
-        41,
-        16,
-        5,
-        10
+        "Goblin 1",	//nombre
+        99,		//vida
+        31		//ataque
     );
 
 
    goblins.emplace_back(
-        "De Pantano",
-        "Goblin",
-        99,
-        30,
-        45,
-        5,
-        57.1,
-        1.23,
-        38,
-        16,
-        5,
-        10
+        "Goblin 2",	//nombre
+        99,		//vida
+        30		//ataque
     );
     cout << "Personajes creados.\n";
 
 }
 
-void Juego::crearEquipos()
-{
+	void Juego::crearEquipos(){ //creacion de equipo
 
-    teamHeroes.push_back(&humanos[0]);
-    teamHeroes.push_back(&humanos[1]);
+    teamHeroes.push_back(&humanos[0]); //teamHeroes[0]
+    teamHeroes.push_back(&humanos[1]); //teamHeroes[1]
 
 
-    teamEnemigos.push_back(&goblins[0]);
-    teamEnemigos.push_back(&goblins[1]);
+    teamEnemigos.push_back(&goblins[0]); //teamEnemigos[0]
+    teamEnemigos.push_back(&goblins[1]); //teamEnemigos[1]
 
 
     cout << "Equipos preparados.\n";
