@@ -27,8 +27,8 @@ public:
     int getVida();
 
 
-    void recibirDanio(int dano);
-
+    void recibirDanio(int dano);		// v0.0.1
+	void mostrarDatos();			// v
 };
 
 

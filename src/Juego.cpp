@@ -21,7 +21,7 @@ void Juego::iniciar(){
 
 
     cout << "Mundo preparado...\n";
-
+mostrarHeroes();
 }
 
 void Juego::crearPersonajes()
@@ -31,30 +31,28 @@ void Juego::crearPersonajes()
         "Cristals",	//nombre
         "Guerrero",	//profecion
         200		//vida
-    );
+	);
 
 
     humanos.emplace_back(
         "Roseline",	//nombre
 	"Mago",		//profecion
         200		//vida
-    );
+	);
 
 
     goblins.emplace_back(
         "Goblin 1",	//nombre
         99,		//vida
         31		//ataque
-    );
+ 	);
 
 
    goblins.emplace_back(
         "Goblin 2",	//nombre
         99,		//vida
         30		//ataque
-    );
-    cout << "Personajes creados.\n";
-
+    	);
 }
 
 	void Juego::crearEquipos(){ //creacion de equipo
@@ -65,8 +63,24 @@ void Juego::crearPersonajes()
 
     teamEnemigos.push_back(&goblins[0]); //teamEnemigos[0]
     teamEnemigos.push_back(&goblins[1]); //teamEnemigos[1]
+	}
 
 
-    cout << "Equipos preparados.\n";
+void Juego::mostrarHeroes(){
+		cout << "========================\n";
+                cout << "       Heroes\n";
+                cout << "========================\n";
+	for(int i = 0; i < teamHeroes.size(); i++){
+	cout << i+1 <<". ";
+	teamHeroes[i]->mostrarDatos();
+	}
 
 }
+void Juego::mostrarEnemigos(){
+	for(int i = 0; i < teamEnemigos.size(); i++){
+                cout << i+1 << " .";
+	teamEnemigos[i]->mostrarDatos();
+        }
+}
+void Juego::seleccionarHeroe(){}
+void Juego::seleccionarEnemigo(){}

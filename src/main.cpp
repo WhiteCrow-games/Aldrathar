@@ -1,13 +1,11 @@
 #include "Juego.h"
 
 
-int main()
-{
+int main(){
 
     Juego juego;
 
     juego.iniciar();
-
 
     return 0;
 }
