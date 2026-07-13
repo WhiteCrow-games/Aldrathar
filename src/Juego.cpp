@@ -21,6 +21,7 @@ void Juego::iniciar(){
 
 
     cout << "Mundo preparado...\n";
+mapa.dibujar();
 mostrarHeroes();
 }
 
@@ -63,24 +64,41 @@ void Juego::crearPersonajes()
 
     teamEnemigos.push_back(&goblins[0]); //teamEnemigos[0]
     teamEnemigos.push_back(&goblins[1]); //teamEnemigos[1]
-	}
+	} // crearEquipos
 
 
 void Juego::mostrarHeroes(){
-		cout << "========================\n";
-                cout << "       Heroes\n";
-                cout << "========================\n";
+		cout << "============================\n";
+                cout << "           Heroes\n";
+                cout << "============================\n";
 	for(int i = 0; i < teamHeroes.size(); i++){
 	cout << i+1 <<". ";
 	teamHeroes[i]->mostrarDatos();
 	}
 
-}
+} //mostrarHeroes
+
 void Juego::mostrarEnemigos(){
 	for(int i = 0; i < teamEnemigos.size(); i++){
                 cout << i+1 << " .";
 	teamEnemigos[i]->mostrarDatos();
         }
-}
+} // mostrarEnemigos
+
+
+/**
+*Creacion de formula
+*de seleccion de personaje
+*/
+
 void Juego::seleccionarHeroe(){}
+/**	int opcion;
+cout << "Selecciona tu Heroe:/n" << endl;
+	cin >> opcion;
+if ( opcion >= 1 // continue..
+
+} //seleccionHeroe
+*/
 void Juego::seleccionarEnemigo(){}
+
+

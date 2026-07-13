@@ -2,7 +2,7 @@
 #define JUEGO_H
 
 #include <vector>
-
+#include <Mapa.h>
 #include "Entidad.h"
 #include "Humano.h"
 #include "Goblin.h"
@@ -11,7 +11,7 @@ using namespace std;
 class Juego
 {
 private:
-
+	Mapa mapa;
     // Personajes del juego
     vector<Humano> humanos;
     vector<Goblin> goblins;

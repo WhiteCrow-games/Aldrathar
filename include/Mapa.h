@@ -5,8 +5,10 @@ class Mapa {
 	private:
 	  int filas;
 	  int columnas;
+	  char mapa[10][20];
 
 	public:
 	  Mapa();
+     void dibujar();
 };
 #endif
