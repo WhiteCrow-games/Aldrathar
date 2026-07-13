@@ -4,3 +4,14 @@ v0.0.1
 - Sistema básico de combate por turnos.
 - Selección de personajes y enemigos.
 - Proyecto compila correctamente.
+
+## [0.0.2] - 2026-07-12
+
+### Added
+- Implementación inicial de la clase `Mapa`.
+- Creación del sistema básico de filas y columnas.
+- Implementación de matriz `char[10][20]` para representar el mundo.
+- Creación del constructor de `Mapa` para inicializar el terreno.
+- Implementación del método `dibujar()` para mostrar el mapa en consola.
+- Integración de `Mapa` dentro de la clase `Juego`.
+- El juego ahora genera y muestra un mundo básico al iniciar.
