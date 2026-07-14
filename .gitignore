@@ -1,0 +1,17 @@
+# CMake
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Ejecutables
+bin/Aldrathar
+
+# Archivos de editor
+.vscode/
+.idea/
+
+# Archivos del sistema
+.DS_Store
