@@ -7,7 +7,7 @@ Makefile
 compile_commands.json
 
 # Ejecutables
-bin/Aldrathar
+bin/
 
 # Archivos de editor
 .vscode/
