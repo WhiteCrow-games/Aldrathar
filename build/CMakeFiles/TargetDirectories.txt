@@ -1,0 +1,3 @@
+/data/data/com.termux/files/home/proyectos/Aldrathar/build/CMakeFiles/Aldratharv0.0.2.1.dir
+/data/data/com.termux/files/home/proyectos/Aldrathar/build/CMakeFiles/edit_cache.dir
+/data/data/com.termux/files/home/proyectos/Aldrathar/build/CMakeFiles/rebuild_cache.dir
