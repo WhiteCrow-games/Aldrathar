@@ -10,5 +10,6 @@ class Mapa {
 	public:
 	  Mapa();
      void dibujar();
+	void colocarElemento(int fila, int columna, char simbolo);
 };
 #endif

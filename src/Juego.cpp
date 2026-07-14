@@ -21,6 +21,7 @@ void Juego::iniciar(){
 
 
     cout << "Mundo preparado...\n";
+mapa.colocarElemento(3, 5, '&');
 mapa.dibujar();
 mostrarHeroes();
 }

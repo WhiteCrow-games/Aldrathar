@@ -1,7 +1,10 @@
 #include <iostream>
 #include "Mapa.h"
 using namespace std;
-Mapa::Mapa(){
+/**
+*Matris de mapa
+*/
+	Mapa::Mapa(){
 	filas = 10;
 	columnas = 20;
 
@@ -11,7 +14,8 @@ Mapa::Mapa(){
    		 }
 	}
 } //Mapa
-void Mapa::dibujar()
+
+	void Mapa::dibujar()
 {
 	for (int i = 0; i < filas; i++){
         for (int j = 0; j < columnas; j++)
@@ -22,4 +26,9 @@ void Mapa::dibujar()
         cout << endl;
     }
 
-}
+} //dibujar
+
+	void Mapa::colocarElemento(int fila, int columna, char simbolo){
+	    mapa[fila][columna] = simbolo;
+} //colocarElemento
+
