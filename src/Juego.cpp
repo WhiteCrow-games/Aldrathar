@@ -19,11 +19,11 @@ void Juego::iniciar(){
 	 //VS
 	crearEquipos();
 
-
-    cout << "Mundo preparado...\n";
-mapa.colocarElemento(3, 5, '&');
-mapa.dibujar();
 mostrarHeroes();
+    cout << "Preparando mundo...\n";
+mapa.pared('#');
+mapa.colocarElemento(3, 5, '@');
+mapa.dibujar();
 }
 
 void Juego::crearPersonajes()

@@ -11,5 +11,6 @@ class Mapa {
 	  Mapa();
      void dibujar();
 	void colocarElemento(int fila, int columna, char simbolo);
+	void pared(char simbolo);
 };
 #endif

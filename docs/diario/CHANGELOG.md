@@ -15,3 +15,12 @@ v0.0.1
 - Implementación del método `dibujar()` para mostrar el mapa en consola.
 - Integración de `Mapa` dentro de la clase `Juego`.
 - El juego ahora genera y muestra un mundo básico al iniciar.
+
+[0.0.3] - En desarrollo
+
+Added
+
+- Implementado el método "colocarElemento()" para modificar posiciones específicas del mapa.
+- Se agregaron muros en los bordes utilizando algoritmos basados en filas y columnas.
+- Integrado el jugador inicial ("@") dentro del mapa.
+- El mapa ahora representa un escenario delimitado listo para futuras mecánicas de movimiento y exploración.
