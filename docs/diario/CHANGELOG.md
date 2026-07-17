@@ -24,3 +24,5 @@ Added
 - Se agregaron muros en los bordes utilizando algoritmos basados en filas y columnas.
 - Integrado el jugador inicial ("@") dentro del mapa.
 - El mapa ahora representa un escenario delimitado listo para futuras mecánicas de movimiento y exploración.
+- Se implemento `seleccionarHeroe();` y `seleccionarEnemigo();` preparando funcion para combatir.
+- Se creo `Juego::limpiarPantalla();` para mejor efecto visual en consola.

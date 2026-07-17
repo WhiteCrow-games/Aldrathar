@@ -31,7 +31,7 @@ public:
     void iniciar();
 
 private:
-
+	void limpiarPantalla();
     void crearPersonajes();
 
     void crearEquipos();

@@ -6,8 +6,8 @@ using namespace std;
 *Matris de mapa
 */
 	Mapa::Mapa(){
-	filas = 10;
-	columnas = 20;
+	filas = 20;
+	columnas = 40;
 
 	for (int i = 0; i < filas; i++){
 	    for (int j = 0; j < columnas; j++){
@@ -16,17 +16,13 @@ using namespace std;
 	}
 } //Mapa()
 
-	void Mapa::dibujar()
-{
+	void Mapa::dibujar(){
 	for (int i = 0; i < filas; i++){
-	        for (int j = 0; j < columnas; j++)
-        {
+	        for (int j = 0; j < columnas; j++){
             cout << mapa[i][j];
-        }
-
+        		}//for
         cout << endl;
-    }
-
+	}//for
 } //dibujar()
 	void Mapa::colocarElemento(int fila, int columna, char simbolo){
 		mapa[fila][columna] = simbolo;
@@ -34,10 +30,11 @@ using namespace std;
 	void Mapa::pared(char simbolo){
 		for(int i = 0;i < filas; i++){
 		mapa[i][0] = simbolo;
-		mapa[i][19] = simbolo;
-		}
+		mapa[i][39] = simbolo;
+
 		for(int i = 0;i < columnas; i++){
 		mapa[0][i] = simbolo;
-		mapa[9][i] = simbolo;
+		mapa[19][i] = simbolo;
 		}
+}
 } //pared()

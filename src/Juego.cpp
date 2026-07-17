@@ -8,7 +8,12 @@ using namespace std;
 Juego::Juego(){
     heroActual = nullptr;
     enemigoActual = nullptr;
-}
+	}//juego();
+
+void Juego::limpiarPantalla(){
+	system("cls");
+	system("clear");
+	}//limpiarPantalla();
 
 void Juego::iniciar(){
     cout << "============================\n";
@@ -16,28 +21,36 @@ void Juego::iniciar(){
     cout << "============================\n";
 
 	crearPersonajes();
-	 //VS
 	crearEquipos();
-
-mostrarHeroes();
-    cout << "Preparando mundo...\n";
-mapa.pared('#');
 mapa.colocarElemento(3, 5, '@');
+seleccionarHeroe();
+limpiarPantalla();
+heroActual->mostrarDatos();
+seleccionarEnemigo();
+	limpiarPantalla();
+	heroActual->mostrarDatos();
+	enemigoActual->mostrarDatos();
+	cout << "Creando mapa...\n";
+cin.get();
+cin.get();
+mapa.pared('#');
 mapa.dibujar();
+cout << "enter para salir...\n";
+cin.get();
+cin.get();
 }
 
-void Juego::crearPersonajes()
-{
+void Juego::crearPersonajes(){
 
     humanos.emplace_back(
-        "Cristals",	//nombre
+        "Cristals Atheon",//nombre
         "Guerrero",	//profecion
         200		//vida
 	);
 
 
     humanos.emplace_back(
-        "Roseline",	//nombre
+        "Roseline Karh",//nombre
 	"Mago",		//profecion
         200		//vida
 	);
@@ -55,7 +68,7 @@ void Juego::crearPersonajes()
         99,		//vida
         30		//ataque
     	);
-}
+} //crearPersonaje();
 
 	void Juego::crearEquipos(){ //creacion de equipo
 
@@ -69,10 +82,10 @@ void Juego::crearPersonajes()
 
 
 void Juego::mostrarHeroes(){
-		cout << "============================\n";
-                cout << "           Heroes\n";
-                cout << "============================\n";
-	for(int i = 0; i < teamHeroes.size(); i++){
+	cout << "================================\n";
+	cout << "           Heroes\n";
+	cout << "================================\n";
+  for(int i = 0; i < teamHeroes.size(); i++){
 	cout << i+1 <<". ";
 	teamHeroes[i]->mostrarDatos();
 	}
@@ -86,20 +99,31 @@ void Juego::mostrarEnemigos(){
         }
 } // mostrarEnemigos
 
+void Juego::seleccionarHeroe() {
 
-/**
-*Creacion de formula
-*de seleccion de personaje
-*/
+    int opcion;
 
-void Juego::seleccionarHeroe(){}
-/**	int opcion;
-cout << "Selecciona tu Heroe:/n" << endl;
-	cin >> opcion;
-if ( opcion >= 1 // continue..
+    mostrarHeroes();
 
-} //seleccionHeroe
-*/
-void Juego::seleccionarEnemigo(){}
+    cout << "\nSelecciona tu héroe: ";
+    cin >> opcion;
 
+    if (opcion >= 1 && opcion <= teamHeroes.size()) {
+        heroActual = teamHeroes[opcion - 1];
+    } else {
+        cout << "Opción inválida.\n";
+    }
+}//seleccionHeroe();
 
+void Juego::seleccionarEnemigo(){
+	int option;
+	mostrarEnemigos();
+	cout << "\nSelecciona oponente: ";
+	cin >> option;
+	if (option>=1 && option <=teamEnemigos.size()){
+	  enemigoActual = teamEnemigos[option -1];
+	}else{
+	cout << "option inválidad.\n";
+	}
+
+}//seleccionarEnemigo();

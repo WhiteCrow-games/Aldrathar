@@ -45,5 +45,5 @@ void Entidad::recibirDanio(int dano)
 }
 void Entidad::mostrarDatos()
 {
-	cout << nombre << "	hp: " << vida << endl;
+	cout << nombre << "	hp: " << vida << "\n" << endl;
 }
