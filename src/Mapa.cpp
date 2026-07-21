@@ -1,9 +1,12 @@
 #include <iostream>
 #include "Mapa.h"
 using namespace std;
-
 /**
-*Matris de mapa
+* Mapa(){} -Matriz del mapa 20x40-
+* Mapa::dibujar(){for(for())}
+* Mapa::mostrarElemnto(){}
+* Mapa::pared(){} -Pared alrededor de todo
+* el contorno-
 */
 	Mapa::Mapa(){
 	filas = 20;
@@ -24,17 +27,20 @@ using namespace std;
         cout << endl;
 	}//for
 } //dibujar()
+
 	void Mapa::colocarElemento(int fila, int columna, char simbolo){
 		mapa[fila][columna] = simbolo;
 } //colocarElemento()
+
 	void Mapa::pared(char simbolo){
-		for(int i = 0;i < filas; i++){
+	for(int i = 0;i < filas; i++){
 		mapa[i][0] = simbolo;
 		mapa[i][39] = simbolo;
 
 		for(int i = 0;i < columnas; i++){
-		mapa[0][i] = simbolo;
-		mapa[19][i] = simbolo;
-		}
-}
+			mapa[0][i] = simbolo;
+			mapa[19][i] = simbolo;
+			}
+	}
 } //pared()
+

@@ -1,5 +1,4 @@
-#include "Juego.h"
-
+#include "Juego"
 
 int main(){
 

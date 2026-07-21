@@ -12,10 +12,13 @@ public:
 
     Goblin(
         string n,
+	string e,		// Criatura
+string r,
         int v,
         int a
-    );
 
+    );
+void getRegion();
 
 };
 

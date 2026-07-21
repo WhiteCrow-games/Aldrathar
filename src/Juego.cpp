@@ -10,19 +10,20 @@ Juego::Juego(){
     enemigoActual = nullptr;
 	}//juego();
 
-void Juego::limpiarPantalla(){
+	void Juego::limpiarPantalla(){
 	system("cls");
 	system("clear");
 	}//limpiarPantalla();
 
-void Juego::iniciar(){
-    cout << "============================\n";
-    cout << "       ALDRATHAR\n";
-    cout << "============================\n";
-
-	crearPersonajes();
-	crearEquipos();
-mapa.colocarElemento(3, 5, '@');
+	void Juego::iniciar(){
+cout << "\033[36m";
+    cout << "=========================================\n";
+    cout << "🐉		ALDRATHAR		🐉\n";
+    cout << "=========================================\n";
+cout << "\033[0m";
+		crearPersonajes();
+		crearEquipos();
+mapa.colocarElemento(3, 5, '#'); //elemento independiente.
 seleccionarHeroe();
 limpiarPantalla();
 heroActual->mostrarDatos();
@@ -33,39 +34,50 @@ seleccionarEnemigo();
 	cout << "Creando mapa...\n";
 cin.get();
 cin.get();
-mapa.pared('#');
-mapa.dibujar();
+
+	while(heroActual->getVida()<=0){
+	mapa.pared('#');
+	colocarHeroe();
+	colocarEnemigo();
+	mapa.dibujar();
 cout << "enter para salir...\n";
 cin.get();
 cin.get();
-}
+	}//while
+}//iniciar
 
 void Juego::crearPersonajes(){
 
     humanos.emplace_back(
-        "Cristals Atheon",//nombre
+        "Criss  Atheon",//nombre
         "Guerrero",	//profecion
-        200		//vida
+        200,		//vida
+	46		//ataque
 	);
 
 
     humanos.emplace_back(
         "Roseline Karh",//nombre
 	"Mago",		//profecion
-        200		//vida
+        200,		//vida
+	45 		//ataque
 	);
 
 
     goblins.emplace_back(
-        "Goblin 1",	//nombre
-        99,		//vida
+        "Goblin",	//nombre
+	"Guerrero",	//especie
+        "Invernalia",	//region
+	99,		//vida
         31		//ataque
- 	);
+);
 
 
    goblins.emplace_back(
-        "Goblin 2",	//nombre
-        99,		//vida
+        "Goblin",	//nombre
+        "amarillo",	//especie
+	"Dunaz del sol",//region
+	99,		//vida
         30		//ataque
     	);
 } //crearPersonaje();
@@ -82,9 +94,9 @@ void Juego::crearPersonajes(){
 
 
 void Juego::mostrarHeroes(){
-	cout << "================================\n";
-	cout << "           Heroes\n";
-	cout << "================================\n";
+	cout << "============================================\n";
+	cout << "             Heroes\n";
+	cout << "============================================\n";
   for(int i = 0; i < teamHeroes.size(); i++){
 	cout << i+1 <<". ";
 	teamHeroes[i]->mostrarDatos();
@@ -108,6 +120,7 @@ void Juego::seleccionarHeroe() {
     cout << "\nSelecciona tu héroe: ";
     cin >> opcion;
 
+
     if (opcion >= 1 && opcion <= teamHeroes.size()) {
         heroActual = teamHeroes[opcion - 1];
     } else {
@@ -127,3 +140,27 @@ void Juego::seleccionarEnemigo(){
 	}
 
 }//seleccionarEnemigo();
+
+	void Juego::colocarHeroe(){
+    heroActual->setX(4);
+    heroActual->setY(8);
+    heroActual-> setSimbolo('@');
+
+	mapa.colocarElemento(
+	heroActual->getX(),
+	heroActual->getY(),
+	heroActual->getSimbolo()
+    );
+}// colocarHeroe(){x, y, getFila(),getColumna, getSimbolo);
+
+	void Juego::colocarEnemigo(){
+	enemigoActual->setX(16);
+	enemigoActual->setY(36);
+	enemigoActual->setSimbolo('&');
+
+	mapa.colocarElemento(
+	enemigoActual->getX(),
+	enemigoActual->getY(),
+	enemigoActual->getSimbolo()
+	};
+} // colocarEnemigo

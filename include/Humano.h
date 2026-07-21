@@ -16,8 +16,11 @@ public:
 
     Humano(
         string n,
-        string p,
+        string p,   //+add humano
 	int v
+	int x,
+	int y,
+	char s
     );
 
 

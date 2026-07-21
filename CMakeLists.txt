@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(Aldrathar VERSION 0.0.2)
+project(Aldrathar VERSION 0.0.3)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -12,4 +12,4 @@ file(GLOB SOURCES
     src/*.cpp
 )
 
-add_executable(Aldratharv0.0.2.1 ${SOURCES})
+add_executable(Aldratharv0.0.3 ${SOURCES})

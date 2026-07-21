@@ -5,9 +5,10 @@ CMakeCache.txt
 cmake_install.cmake
 Makefile
 compile_commands.json
-
+CMakefile
 # Ejecutables
 bin/
+
 
 # Archivos de editor
 .vscode/

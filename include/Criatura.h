@@ -16,12 +16,15 @@ public:
 
     Criatura(
         string n,
+string e,
         int v,
-        int a
+        int a,
+	int x,
+int y,
+char s
     );
 
-
-    int getAtaque();
+   void Entidad:: getEspecie();
 
 };
 

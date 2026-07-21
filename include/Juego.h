@@ -8,8 +8,8 @@
 #include "Goblin.h"
 using namespace std;
 
-class Juego
-{
+class Juego{
+
 private:
 	Mapa mapa;
     // Personajes del juego
@@ -31,7 +31,9 @@ public:
     void iniciar();
 
 private:
-	void limpiarPantalla();
+
+    void limpiarPantalla();
+
     void crearPersonajes();
 
     void crearEquipos();
@@ -44,7 +46,10 @@ private:
 
     void seleccionarEnemigo();
 
-    void combatir();
-};
+    void colocarHeroe();
 
+    void combatir();
+
+    void colocarEnemigo();
+};
 #endif

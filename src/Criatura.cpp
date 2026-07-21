@@ -3,21 +3,17 @@
 
 Criatura::Criatura(
     string n,
+	string e,
     int v,
-    int a
-)
-:
-Entidad(n,v)
-{
-
-    ataque = a;
-
+    int a,
+int x,
+int y,
+char s
+):Entidad(n,v,a,x,y,s){
+ especie = e;
 }
 
 
-int Criatura::getAtaque()
-{
-
-    return ataque;
-
+string getEspecie(){
+    return especie;
 }
