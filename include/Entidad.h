@@ -22,16 +22,16 @@ char simbolo;
 
 public:
 
-    Entidad(string n, int v, int a, int x, int y, char s);
+    Entidad(string n, int v, int a);
 
 
     string getNombre();
 
     int getVida();
 int getAtaque();
-void setX(int x);
-void setY(int y);
-void setSimbolo(char s);
+void setX(int fila);
+void setY(int columna);
+void setSimbolo(char sim);
 char getSimbolo();
 int getX();
 int getY();

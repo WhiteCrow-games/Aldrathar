@@ -7,24 +7,21 @@
 class Criatura : public Entidad
 {
 
-protected:
+private:
 
-    int ataque;
+    string especie;
 
 
 public:
 
     Criatura(
         string n,
-string e,
+		string e,
         int v,
-        int a,
-	int x,
-int y,
-char s
+        int a
     );
 
-   void Entidad:: getEspecie();
+  string getEspecie();
 
 };
 

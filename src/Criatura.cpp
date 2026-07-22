@@ -5,15 +5,12 @@ Criatura::Criatura(
     string n,
 	string e,
     int v,
-    int a,
-int x,
-int y,
-char s
-):Entidad(n,v,a,x,y,s){
+    int a
+):Entidad(n,v,a){
  especie = e;
 }
 
 
-string getEspecie(){
+string Criatura::getEspecie(){
     return especie;
 }

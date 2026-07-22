@@ -6,12 +6,9 @@ Goblin::Goblin(
 	string e,	//especie <- criatura
 	string r,	//region
     int v,		//vida
-    int a,		//ataque
-	int x,		//fila
-	int y,		//columna
-	char s		//simbolo
+    int a
 
-):Criatura(n,e,v,a,x,y,s){
+):Criatura(n,e,v,a){
 
 region = r;
 }

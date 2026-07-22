@@ -35,7 +35,6 @@ seleccionarEnemigo();
 cin.get();
 cin.get();
 
-	while(heroActual->getVida()<=0){
 	mapa.pared('#');
 	colocarHeroe();
 	colocarEnemigo();
@@ -43,7 +42,6 @@ cin.get();
 cout << "enter para salir...\n";
 cin.get();
 cin.get();
-	}//while
 }//iniciar
 
 void Juego::crearPersonajes(){
@@ -162,5 +160,5 @@ void Juego::seleccionarEnemigo(){
 	enemigoActual->getX(),
 	enemigoActual->getY(),
 	enemigoActual->getSimbolo()
-	};
+	);
 } // colocarEnemigo

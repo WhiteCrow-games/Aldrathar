@@ -6,19 +6,20 @@
 
 class Goblin : public Criatura
 {
-
+private:
+	string region;
 
 public:
 
     Goblin(
         string n,
 	string e,		// Criatura
-string r,
+		string r,
         int v,
         int a
 
     );
-void getRegion();
+string getRegion();
 
 };
 

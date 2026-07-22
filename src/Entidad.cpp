@@ -1,15 +1,14 @@
 #include "Entidad.h"
 
 
-Entidad::Entidad(string n, int v, int a, int x, int y, char s){
+Entidad::Entidad(string n, int v, int a){
 nombre = n;
 vida = v;
 ataque = a;
-fila = x;
-columna = y;
-simbolo = s;
+fila = 0;
+columna = 0;
+simbolo = ' ';
 }
-
 
 string Entidad::getNombre(){
     return nombre;
@@ -23,25 +22,29 @@ int Entidad::getAtaque(){
 	return ataque;
 }
 
-void Entidad::setX(int x);
 
-void  Entidad::setY(int y);
+void Entidad::setX(int fila){
+    this->fila = fila;
+}
+
+void Entidad::setY(int columna){
+    this->columna = columna;
+}
 
 int Entidad::getX(){
-	return x;
+    return fila;
 }
 
 int Entidad::getY(){
-	return y;
+    return columna;
 }
 
-int Entidad::getVida(){
-    return vida;
- }
-void  Entidad::setSimbolo(char s);
+void Entidad::setSimbolo(char s){
+    this->simbolo = s;
+}
 
 char Entidad::getSimbolo(){
-	return simbolo;
+    return simbolo;
 }
 
 void Entidad::recibirDanio(int dano)
