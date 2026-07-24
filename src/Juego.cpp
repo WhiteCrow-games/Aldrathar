@@ -18,12 +18,12 @@ Juego::Juego(){
 	void Juego::iniciar(){
 cout << "\033[36m";
     cout << "=========================================\n";
-    cout << "🐉		ALDRATHAR		🐉\n";
+    cout << "🐉		ALDRATHAR		  🐉\n";
     cout << "=========================================\n";
 cout << "\033[0m";
 		crearPersonajes();
 		crearEquipos();
-mapa.colocarElemento(3, 5, '#'); //elemento independiente.
+mapa.colocarElemento(14, 36, '_'); //elemento independiente.
 seleccionarHeroe();
 limpiarPantalla();
 heroActual->mostrarDatos();
@@ -36,7 +36,9 @@ cin.get();
 cin.get();
 
 	mapa.pared('#');
+	initHeroe();
 	colocarHeroe();
+	initEnemigo();
 	colocarEnemigo();
 	mapa.dibujar();
 cout << "enter para salir...\n";
@@ -47,7 +49,7 @@ cin.get();
 void Juego::crearPersonajes(){
 
     humanos.emplace_back(
-        "Criss  Atheon",//nombre
+        "Criss Atheon",//nombre
         "Guerrero",	//profecion
         200,		//vida
 	46		//ataque
@@ -80,7 +82,14 @@ void Juego::crearPersonajes(){
     	);
 } //crearPersonaje();
 
-	void Juego::crearEquipos(){ //creacion de equipo
+/**
+*
+*
+*
+*
+*/
+
+void Juego::crearEquipos(){ //creacion de equipo
 
     teamHeroes.push_back(&humanos[0]); //teamHeroes[0]
     teamHeroes.push_back(&humanos[1]); //teamHeroes[1]
@@ -92,15 +101,16 @@ void Juego::crearPersonajes(){
 
 
 void Juego::mostrarHeroes(){
-	cout << "============================================\n";
+	cout << "==========================================\n";
 	cout << "             Heroes\n";
-	cout << "============================================\n";
+	cout << "==========================================\n";
   for(int i = 0; i < teamHeroes.size(); i++){
 	cout << i+1 <<". ";
 	teamHeroes[i]->mostrarDatos();
 	}
 
 } //mostrarHeroes
+
 
 void Juego::mostrarEnemigos(){
 	for(int i = 0; i < teamEnemigos.size(); i++){
@@ -126,6 +136,7 @@ void Juego::seleccionarHeroe() {
     }
 }//seleccionHeroe();
 
+
 void Juego::seleccionarEnemigo(){
 	int option;
 	mostrarEnemigos();
@@ -139,22 +150,34 @@ void Juego::seleccionarEnemigo(){
 
 }//seleccionarEnemigo();
 
-	void Juego::colocarHeroe(){
-    heroActual->setX(4);
-    heroActual->setY(8);
-    heroActual-> setSimbolo('@');
+
+void Juego::initHeroe(){
+
+    heroActual->setX(8);
+    heroActual->setY(16);
+    heroActual->setSimbolo('@');
+} //initHeroe
+
+
+void Juego::colocarHeroe(){
 
 	mapa.colocarElemento(
 	heroActual->getX(),
 	heroActual->getY(),
 	heroActual->getSimbolo()
     );
-}// colocarHeroe(){x, y, getFila(),getColumna, getSimbolo);
+}// colocarHeroe
 
-	void Juego::colocarEnemigo(){
-	enemigoActual->setX(16);
-	enemigoActual->setY(36);
-	enemigoActual->setSimbolo('&');
+
+void Juego::initEnemigo(){
+
+	enemigoActual->setX(12);
+	enemigoActual->setY(30);
+	enemigoActual->setSimbolo('%');
+} //initEnemigo
+
+
+void Juego::colocarEnemigo(){
 
 	mapa.colocarElemento(
 	enemigoActual->getX(),

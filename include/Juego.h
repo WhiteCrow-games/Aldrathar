@@ -46,10 +46,12 @@ private:
 
     void seleccionarEnemigo();
 
+void initHeroe();
     void colocarHeroe();
 
-    void combatir();
-
+void initEnemigo();
     void colocarEnemigo();
+
+	void combatir();
 };
 #endif

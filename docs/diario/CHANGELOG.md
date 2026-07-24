@@ -16,9 +16,9 @@ v0.0.1
 - Integración de `Mapa` dentro de la clase `Juego`.
 - El juego ahora genera y muestra un mundo básico al iniciar.
 
-[0.0.3] - En desarrollo
+## [0.0.3] 2026-07-21
 
-Added
+### Added
 
 - Implementado el método "colocarElemento()" para modificar posiciones específicas del mapa.
 - Se agregaron muros en los bordes utilizando algoritmos basados en filas y columnas.
@@ -26,3 +26,9 @@ Added
 - El mapa ahora representa un escenario delimitado listo para futuras mecánicas de movimiento y exploración.
 - Se implemento `seleccionarHeroe();` y `seleccionarEnemigo();` preparando funcion para combatir.
 - Se creo `Juego::limpiarPantalla();` para mejor efecto visual en consola.
+- creacion de  `colocarHeroe` y `colocarEnemigo`
+ 
+ [0.0.4] -En desarrollo-
+
+ Added
+- Movimiento a heroe
