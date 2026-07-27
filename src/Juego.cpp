@@ -122,7 +122,6 @@ void Juego::mostrarEnemigos(){
 void Juego::seleccionarHeroe() {
 
     int opcion;
-
     mostrarHeroes();
 
     cout << "\nSelecciona tu héroe: ";
