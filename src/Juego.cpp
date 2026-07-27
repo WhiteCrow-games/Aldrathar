@@ -58,7 +58,7 @@ void Juego::crearPersonajes(){
 	);
 
 
-CHANGELOG.md    humanos.emplace_back(
+    humanos.emplace_back(
         "Roseline Karh",//nombre
 	"Mago",		//profecion
         200,		//vida
