@@ -36,8 +36,8 @@ char getSimbolo();
 int getX();
 int getY();
 
-    void recibirDanio(int dano);		// v0.0.1
-	void mostrarDatos();			// v
+    void recibirDanio(int dano);	
+	void mostrarDatos();
 };
 
 

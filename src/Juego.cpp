@@ -8,14 +8,15 @@ using namespace std;
 Juego::Juego(){
     heroActual = nullptr;
     enemigoActual = nullptr;
-	}//juego();
+	}
+	//Juego
 
 	void Juego::limpiarPantalla(){
 	system("cls");
 	system("clear");
 	}//limpiarPantalla();
 
-	void Juego::iniciar(){
+void Juego::iniciar(){
 cout << "\033[36m";
     cout << "=========================================\n";
     cout << "🐉		ALDRATHAR		  🐉\n";
@@ -44,7 +45,8 @@ cin.get();
 cout << "enter para salir...\n";
 cin.get();
 cin.get();
-}//iniciar
+}
+//iniciar
 
 void Juego::crearPersonajes(){
 
@@ -56,7 +58,7 @@ void Juego::crearPersonajes(){
 	);
 
 
-    humanos.emplace_back(
+CHANGELOG.md    humanos.emplace_back(
         "Roseline Karh",//nombre
 	"Mago",		//profecion
         200,		//vida
@@ -80,7 +82,7 @@ void Juego::crearPersonajes(){
 	99,		//vida
         30		//ataque
     	);
-} //crearPersonaje();
+} //crearPersonaje
 
 /**
 *
@@ -164,8 +166,7 @@ void Juego::colocarHeroe(){
 	heroActual->getX(),
 	heroActual->getY(),
 	heroActual->getSimbolo()
-    );
-}// colocarHeroe
+    );}//colocarHeroe
 
 
 void Juego::initEnemigo(){
@@ -183,4 +184,4 @@ void Juego::colocarEnemigo(){
 	enemigoActual->getY(),
 	enemigoActual->getSimbolo()
 	);
-} // colocarEnemigo
+}//colocarEnemigo
