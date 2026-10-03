@@ -32,3 +32,24 @@ v0.0.1
 
  Added
 - Movimiento a heroe
+
+## 2026-10-03
+
+### Added
+
+- Added the AI development protocol.
+- Added current project work state documentation.
+
+### Changed
+
+- Migrated CMake project from C++17 to C++20.
+- Updated project version to 0.0.5.
+- Added SFML 3.1.0 through CMake package discovery.
+- Improved CMake source and include configuration.
+
+### Tested
+
+- CMake configuration: PASS.
+- Ninja build: PASS.
+- Clang 21.1.8: PASS.
+- SFML 3.1.0: PASS.
