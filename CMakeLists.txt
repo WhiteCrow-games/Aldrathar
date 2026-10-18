@@ -19,6 +19,7 @@ add_executable(Aldrathar
     src/main.cpp
     src/core/Engine.cpp
     src/game/Game.cpp
+    src/game/Player.cpp
     src/renderer/Renderer.cpp
 )
 
