@@ -13,8 +13,11 @@ public:
         moving_ = moving;
     }
 
+    void SetFacingDirection(float directionX, float directionZ) noexcept;
+
 private:
     float animationTime_{0.0F};
+    float facingAngleDegrees_{0.0F};
     bool moving_{false};
 };
 

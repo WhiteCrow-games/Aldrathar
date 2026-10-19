@@ -3,6 +3,7 @@
 #include <raymath.h>
 #include <rlgl.h>
 #include "game/Player.hpp"
+#include "game/DragonEntity.hpp"
 
 class Game {
 public:
@@ -18,13 +19,14 @@ private:
     void drawTrees();
     void drawBushes();
     void drawCharacter();
-    void drawDragon();
     void drawRoom();
     void drawFurniture();
     Camera3D camera_{};
     Aldrathar::Player player_{};
     Aldrathar::Entity* playerEntity_{&player_};
     float elapsedTime_{0.0f};
+    float movementVelocityX_{0.0F};
+    float movementVelocityZ_{0.0F};
     bool isometric_{false};
     Vector2 joystickCenter_{48.0f, 192.0f};
     Vector2 joystickKnob_{48.0f, 192.0f};
@@ -32,8 +34,9 @@ private:
     int joystickTouchId_{-1};
     int cameraTouchId_{-1};
     bool cameraTouchWasDown_{false};
-    Vector3 dragonPos_{0.0f, 0.0f, -8.5f};
-    float dragonIdle_{0.0f};
-    static constexpr float DRAGON_IDLE_SPEED = 15.0f;
+    float cameraOrbitAngle_{0.0F};
+    float cameraTouchLastX_{0.0F};
+    bool cameraTouchIsButton_{false};
+    Aldrathar::DragonEntity dragon_{};
     bool isInsideHouse_{false};
 };

@@ -1,12 +1,22 @@
 #include "game/Player.hpp"
 
 #include <cmath>
+#include <rlgl.h>
 
 namespace Aldrathar {
 
 void Player::Update(float deltaTime)
 {
     animationTime_ += deltaTime;
+}
+
+void Player::SetFacingDirection(float directionX, float directionZ) noexcept
+{
+    if (directionX == 0.0F && directionZ == 0.0F) {
+        return;
+    }
+
+    facingAngleDegrees_ = std::atan2(directionX, directionZ) * RAD2DEG;
 }
 
 void Player::Draw() const
@@ -16,6 +26,12 @@ void Player::Draw() const
         : 0.0F;
 
     const Vector3& p = position_;
+
+    // Girar todo el modelo alrededor de los pies del jugador.
+    rlPushMatrix();
+    rlTranslatef(p.x, p.y, p.z);
+    rlRotatef(facingAngleDegrees_, 0.0F, 1.0F, 0.0F);
+    rlTranslatef(-p.x, -p.y, -p.z);
 
     // Sombra
     DrawCylinder(
@@ -89,6 +105,8 @@ void Player::Draw() const
         Vector3{p.x + 0.08F, 1.48F, p.z + 0.18F},
         0.04F, 0.04F, 0.02F, BLACK
     );
+
+    rlPopMatrix();
 }
 
 } // namespace Aldrathar

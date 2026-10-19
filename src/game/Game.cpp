@@ -41,9 +41,6 @@ bool isPlayerInsideHouse(Vector3 p) {
     return p.x > -2.3F && p.x < 2.3F && p.z > -6.5F && p.z < -3.3F;
 }
 
-unsigned char getWallAlpha(bool inside) {
-    return inside ? 85 : 255; // PZ fade
-}
 
 unsigned char getFoliageAlpha(Vector3 player, Vector3 tree) {
     float dx = player.x - tree.x;
@@ -56,73 +53,20 @@ unsigned char getFoliageAlpha(Vector3 player, Vector3 tree) {
 }
 }
 
-void Game::drawDragon()
-{
-    rlPushMatrix();
-    rlTranslatef(dragonPos_.x, dragonPos_.y, dragonPos_.z);
-    // Ya no gira 360, solo idle natural +-7.5 grados
-    float headSway = std::sin(dragonIdle_) * 7.5F;
-    float breath = std::sin(dragonIdle_ * 1.3F) * 0.08F;
-
-    // Cuerpo con respiración
-    rlPushMatrix();
-    rlScalef(1.0f + breath, 1.0f + breath, 1.0f + breath);
-    DrawCube(Vector3{0,1.0f,0}, 1.6f, 0.9f, 1.8f, Color{48,48,48,255});
-    DrawCube(Vector3{0,0.95f,-0.6f}, 1.3f, 0.7f, 1.0f, Color{42,42,42,255});
-    DrawCube(Vector3{0,1.25f,0.2f}, 1.0f, 0.35f, 1.2f, Color{60,60,60,255});
-    rlPopMatrix();
-
-    // Cuello segmentado
-    DrawCube(Vector3{0,1.15f,1.1f}, 0.6f, 0.6f, 0.6f, Color{45,45,45,255});
-    DrawCube(Vector3{0,1.25f,1.6f}, 0.55f, 0.55f, 0.55f, Color{46,46,46,255});
-
-    // Cabeza con sway de 15°/s
-    rlPushMatrix();
-    rlTranslatef(0, 1.35f, 2.05f);
-    rlRotatef(headSway, 0,1,0);
-    DrawCube(Vector3{0,0,0}, 0.5f, 0.5f, 0.5f, Color{50,50,50,255});
-    DrawCube(Vector3{0,-0.1f,0.55f}, 0.45f, 0.3f, 0.6f, Color{58,58,58,255});
-    DrawCube(Vector3{-0.18f,0.2f,-0.15f}, 0.08f, 0.08f, 0.5f, Color{30,30,30,255});
-    DrawCube(Vector3{0.18f,0.2f,-0.15f}, 0.08f, 0.08f, 0.5f, Color{30,30,30,255});
-    DrawSphere(Vector3{-0.22f,0.05f,0.15f}, 0.07f, Color{255,170,20,255});
-    DrawSphere(Vector3{0.22f,0.05f,0.15f}, 0.07f, Color{255,170,20,255});
-    rlPopMatrix();
-
-    // Alas cerradas - estatico
-    DrawCube(Vector3{-0.9f,1.3f,0.1f}, 0.15f, 0.7f, 1.2f, Color{35,35,35,255});
-    DrawCube(Vector3{0.9f,1.3f,0.1f}, 0.15f, 0.7f, 1.2f, Color{35,35,35,255});
-    DrawCube(Vector3{-1.1f,1.25f,0.4f}, 0.05f, 0.6f, 1.2f, Color{110,25,25,200});
-    DrawCube(Vector3{1.1f,1.25f,0.4f}, 0.05f, 0.6f, 1.2f, Color{110,25,25,200});
-
-    // Patas
-    DrawCube(Vector3{-0.55f,0.45f,0.5f}, 0.28f, 0.7f, 0.28f, Color{44,44,44,255});
-    DrawCube(Vector3{0.55f,0.45f,0.5f}, 0.28f, 0.7f, 0.28f, Color{44,44,44,255});
-    DrawCube(Vector3{-0.5f,0.4f,-0.5f}, 0.32f, 0.65f, 0.32f, Color{46,46,46,255});
-    DrawCube(Vector3{0.5f,0.4f,-0.5f}, 0.32f, 0.65f, 0.32f, Color{46,46,46,255});
-
-    // Cola larga 6 segmentos
-    DrawCube(Vector3{0,0.85f,-1.3f}, 0.55f, 0.45f, 0.7f, Color{42,42,42,255});
-    DrawCube(Vector3{0,0.8f,-1.95f}, 0.45f, 0.4f, 0.65f, Color{40,40,40,255});
-    DrawCube(Vector3{0,0.75f,-2.55f}, 0.38f, 0.35f, 0.6f, Color{38,38,38,255});
-    DrawCube(Vector3{0,0.7f,-3.1f}, 0.32f, 0.3f, 0.55f, Color{36,36,36,255});
-    DrawCube(Vector3{0,0.65f,-3.6f}, 0.26f, 0.25f, 0.5f, Color{34,34,34,255});
-    DrawCube(Vector3{0,0.6f,-4.05f}, 0.2f, 0.2f, 0.4f, Color{32,32,32,255});
-    // Púas cola
-    for (int i=0;i<5;i++) DrawCube(Vector3{0,0.9f - i*0.05f,-1.3f - i*0.62f}, 0.07f, 0.16f, 0.07f, Color{28,28,28,255});
-
-    rlPopMatrix();
-}
-
 void Game::initialize()
 {
     elapsedTime_ = 0.0F;
+    movementVelocityX_ = 0.0F;
+    movementVelocityZ_ = 0.0F;
     player_.GetPosition() = Vector3{0.0F, 0.0F, 3.0F};
-    dragonPos_ = Vector3{0.0F, 0.0F, -8.5F};
-    dragonIdle_ = 0.0F;
+    dragon_.SetPosition(Vector3{-3.8F, 0.0F, -1.5F});
     isometric_ = false;
     joystickTouchId_ = -1;
     cameraTouchId_ = -1;
     cameraTouchWasDown_ = false;
+    cameraOrbitAngle_ = 0.0F;
+    cameraTouchLastX_ = 0.0F;
+    cameraTouchIsButton_ = false;
     touchMove_ = Vector2{0.0F, 0.0F};
     camera_.up = Vector3{0.0F, 1.0F, 0.0F};
     isInsideHouse_ = false;
@@ -131,24 +75,46 @@ void Game::initialize()
 
 void Game::updateCamera()
 {
-    camera_.target = Vector3{player_.GetPosition().x, player_.GetPosition().y + 0.8F, player_.GetPosition().z};
+    const Vector3 p = player_.GetPosition();
+
+    camera_.target = Vector3{
+        p.x, p.y + (isometric_ ? 0.65F : 0.9F), p.z
+    };
+
     if (isometric_) {
-        camera_.position = Vector3{player_.GetPosition().x + 10.0F, player_.GetPosition().y + 12.0F, player_.GetPosition().z + 10.0F};
+        constexpr float radius = 12.0F;
+        constexpr float height = 10.5F;
+        constexpr float offset = 0.785398163F;
+        const float angle = cameraOrbitAngle_ + offset;
+
+        camera_.position = Vector3{
+            p.x + std::sin(angle) * radius,
+            p.y + height,
+            p.z + std::cos(angle) * radius
+        };
         camera_.projection = CAMERA_ORTHOGRAPHIC;
-        camera_.fovy = 17.0F;
+        camera_.fovy = 16.0F;
     } else {
-        camera_.position = Vector3{player_.GetPosition().x, player_.GetPosition().y + 5.0F, player_.GetPosition().z + 8.5F};
-        camera_.target.z -= 1.0F;
+        constexpr float radius = 6.8F;
+        constexpr float height = 3.7F;
+
+        camera_.position = Vector3{
+            p.x + std::sin(cameraOrbitAngle_) * radius,
+            p.y + height,
+            p.z + std::cos(cameraOrbitAngle_) * radius
+        };
         camera_.projection = CAMERA_PERSPECTIVE;
-        camera_.fovy = 48.0F;
+        camera_.fovy = 50.0F;
     }
+
+    camera_.up = Vector3{0.0F, 1.0F, 0.0F};
 }
 
 void Game::update(float fixedDeltaTime)
 {
     elapsedTime_ += fixedDeltaTime;
-    playerEntity_->Update(fixedDeltaTime);
-    dragonIdle_ += DRAGON_IDLE_SPEED * 0.01745329252f * fixedDeltaTime; // 15°/s convertido a rad para sin()
+
+    dragon_.Update(fixedDeltaTime);
     isInsideHouse_ = isPlayerInsideHouse(player_.GetPosition());
 
     if (IsKeyPressed(KEY_V)) isometric_ = !isometric_;
@@ -179,7 +145,16 @@ void Game::update(float fixedDeltaTime)
                 touchMove_.x = std::clamp(dx / JOYSTICK_RADIUS, -1.0F, 1.0F);
                 touchMove_.y = std::clamp(dy / JOYSTICK_RADIUS, -1.0F, 1.0F);
             }
-            if (id == cameraTouchId_) cameraFound = true;
+            if (id == cameraTouchId_) {
+                cameraFound = true;
+
+                if (!cameraTouchIsButton_) {
+                    const float dragX = p.x - cameraTouchLastX_;
+                    cameraOrbitAngle_ += dragX * 0.01F;
+                    cameraTouchLastX_ = p.x;
+                }
+            }
+
             if (joystickTouchId_ == -1 && p.x < 100.0F && p.y > 125.0F) {
                 joystickTouchId_ = id; joystickFound = true;
                 const float dx = p.x - joystickCenter_.x; const float dy = p.y - joystickCenter_.y;
@@ -189,41 +164,145 @@ void Game::update(float fixedDeltaTime)
                 touchMove_.x = std::clamp(dx / JOYSTICK_RADIUS, -1.0F, 1.0F);
                 touchMove_.y = std::clamp(dy / JOYSTICK_RADIUS, -1.0F, 1.0F);
             }
-            if (cameraTouchId_ == -1 && p.x > 255.0F && p.y > 145.0F) { cameraTouchId_ = id; cameraFound = true; }
+
+            if (cameraTouchId_ == -1 && p.x > 160.0F) {
+                cameraTouchId_ = id;
+                cameraFound = true;
+                cameraTouchLastX_ = p.x;
+                cameraTouchIsButton_ = p.x > 255.0F && p.y > 160.0F;
+
+                if (cameraTouchIsButton_) {
+                    isometric_ = !isometric_;
+                }
+            }
         }
     } else if (mouseDown) {
-        const Vector2 p{mousePosition.x * 320.0F / static_cast<float>(GetScreenWidth()), mousePosition.y * 240.0F / static_cast<float>(GetScreenHeight())};
-        if (p.x > 255.0F && p.y > 145.0F) { if (!cameraTouchWasDown_) isometric_ = !isometric_; cameraTouchWasDown_ = true; }
-        else if (p.x < 100.0F && p.y > 125.0F) {
-            const float dx = p.x - joystickCenter_.x; const float dy = p.y - joystickCenter_.y;
+        const Vector2 p{
+            mousePosition.x * 320.0F /
+                static_cast<float>(GetScreenWidth()),
+            mousePosition.y * 240.0F /
+                static_cast<float>(GetScreenHeight())
+        };
+
+        if (p.x < 100.0F && p.y > 125.0F) {
+            const float dx = p.x - joystickCenter_.x;
+            const float dy = p.y - joystickCenter_.y;
             const float distance = std::sqrt(dx * dx + dy * dy);
-            const float scale = distance > JOYSTICK_RADIUS ? JOYSTICK_RADIUS / distance : 1.0F;
-            joystickKnob_ = Vector2{joystickCenter_.x + dx * scale, joystickCenter_.y + dy * scale};
-            touchMove_.x = std::clamp(dx / JOYSTICK_RADIUS, -1.0F, 1.0F);
-            touchMove_.y = std::clamp(dy / JOYSTICK_RADIUS, -1.0F, 1.0F);
+            const float scale =
+                distance > JOYSTICK_RADIUS
+                    ? JOYSTICK_RADIUS / distance : 1.0F;
+
+            joystickKnob_ = Vector2{
+                joystickCenter_.x + dx * scale,
+                joystickCenter_.y + dy * scale
+            };
+            touchMove_.x = std::clamp(
+                dx / JOYSTICK_RADIUS, -1.0F, 1.0F);
+            touchMove_.y = std::clamp(
+                dy / JOYSTICK_RADIUS, -1.0F, 1.0F);
             joystickFound = true;
+        } else if (p.x > 160.0F) {
+            if (!cameraTouchWasDown_) {
+                // Inicio de pulsación: CAM cambia de modo una sola vez.
+                cameraTouchLastX_ = p.x;
+                cameraTouchIsButton_ =
+                    p.x > 255.0F && p.y > 160.0F;
+
+                if (cameraTouchIsButton_) {
+                    isometric_ = !isometric_;
+                }
+            } else if (!cameraTouchIsButton_) {
+                // Mantener pulsado y arrastrar gira la cámara.
+                const float dragX = p.x - cameraTouchLastX_;
+                cameraOrbitAngle_ += dragX * 0.01F;
+                cameraTouchLastX_ = p.x;
+            }
+
+            cameraTouchWasDown_ = true;
         }
-    } else cameraTouchWasDown_ = false;
+    } else {
+        cameraTouchWasDown_ = false;
+        cameraTouchIsButton_ = false;
+    }
 
     if (touchCount > 0) {
         cameraTouchWasDown_ = cameraFound;
-        if (cameraFound && cameraTouchId_ >= 0) { static int prev=-1; if (prev!=cameraTouchId_) isometric_=!isometric_; prev=cameraTouchId_; }
     }
-    if (!joystickFound) { joystickTouchId_ = -1; joystickKnob_ = joystickCenter_; touchMove_ = Vector2{0.0F, 0.0F}; }
-    if (!cameraFound) cameraTouchId_ = -1;
 
-    moveX += touchMove_.x; moveZ += touchMove_.y;
-    const float length = std::sqrt(moveX * moveX + moveZ * moveZ);
-    player_.SetMoving(length > 0.0F);
-    if (length > 0.0F) {
-        constexpr float speed = 3.0F;
-        const float stepX = (moveX / length) * speed * fixedDeltaTime;
-        const float stepZ = (moveZ / length) * speed * fixedDeltaTime;
-        const float nextX = player_.GetPosition().x + stepX;
-        if (!blockedAt(nextX, player_.GetPosition().z)) player_.GetPosition().x = nextX;
-        const float nextZ = player_.GetPosition().z + stepZ;
-        if (!blockedAt(player_.GetPosition().x, nextZ)) player_.GetPosition().z = nextZ;
+    if (!joystickFound) {
+        joystickTouchId_ = -1;
+        joystickKnob_ = joystickCenter_;
+        touchMove_ = Vector2{0.0F, 0.0F};
     }
+
+    if (!cameraFound) {
+        cameraTouchId_ = -1;
+        cameraTouchIsButton_ = false;
+    }
+
+    moveX += touchMove_.x;
+    moveZ += touchMove_.y;
+
+    const float inputLength = std::sqrt(moveX * moveX + moveZ * moveZ);
+
+    constexpr float speed = 3.0F;
+    constexpr float acceleration = 12.0F;
+    constexpr float braking = 16.0F;
+
+    float desiredX = 0.0F;
+    float desiredZ = 0.0F;
+
+    if (inputLength > 0.001F) {
+        desiredX = (moveX / inputLength) * speed;
+        desiredZ = (moveZ / inputLength) * speed;
+    }
+
+    const float deltaX = desiredX - movementVelocityX_;
+    const float deltaZ = desiredZ - movementVelocityZ_;
+    const float deltaLength = std::sqrt(deltaX * deltaX + deltaZ * deltaZ);
+    const float rate = inputLength > 0.001F ? acceleration : braking;
+    const float maxChange = rate * fixedDeltaTime;
+
+    if (deltaLength > maxChange && deltaLength > 0.0F) {
+        const float scale = maxChange / deltaLength;
+        movementVelocityX_ += deltaX * scale;
+        movementVelocityZ_ += deltaZ * scale;
+    } else {
+        movementVelocityX_ = desiredX;
+        movementVelocityZ_ = desiredZ;
+    }
+
+    const float nextX =
+        player_.GetPosition().x + movementVelocityX_ * fixedDeltaTime;
+
+    if (!blockedAt(nextX, player_.GetPosition().z)) {
+        player_.GetPosition().x = nextX;
+    } else {
+        movementVelocityX_ = 0.0F;
+    }
+
+    const float nextZ =
+        player_.GetPosition().z + movementVelocityZ_ * fixedDeltaTime;
+
+    if (!blockedAt(player_.GetPosition().x, nextZ)) {
+        player_.GetPosition().z = nextZ;
+    } else {
+        movementVelocityZ_ = 0.0F;
+    }
+
+    const float actualSpeed = std::sqrt(
+        movementVelocityX_ * movementVelocityX_ +
+        movementVelocityZ_ * movementVelocityZ_
+    );
+
+    player_.SetMoving(actualSpeed > 0.05F);
+
+    if (actualSpeed > 0.05F) {
+        player_.SetFacingDirection(movementVelocityX_, movementVelocityZ_);
+    }
+
+    playerEntity_->Update(fixedDeltaTime);
+
     updateCamera();
 }
 
@@ -235,7 +314,7 @@ void Game::render(float interpolation)
     drawHouse();
     drawTrees();
     drawBushes();
-    drawDragon();
+    dragon_.Draw();
     drawCharacter();
     EndMode3D();
     DrawRectangle(5, 5, 205, 52, Color{0, 0, 0, 210});
@@ -259,6 +338,7 @@ void Game::drawTouchControls()
     DrawCircleV(buttonCenter, 19.0F, Color{110, 130, 120, 210});
     DrawCircleLines(282, 184, 19.0F, RAYWHITE);
     DrawText("CAM", 269, 180, 9, RAYWHITE);
+    DrawText("ARRASTRA PARA GIRAR", 184, 145, 7, Color{220, 225, 210, 190});
 }
 void Game::drawOutdoor()
 {
@@ -267,24 +347,57 @@ void Game::drawOutdoor()
 }
 void Game::drawHouse()
 {
-    unsigned char alpha = getWallAlpha(isInsideHouse_);
-    const Color wall{113, 104, 85, alpha};
-    const Color roof{67, 43, 39, alpha};
-    const Color dark{36, 39, 38, alpha};
+    const bool inside = isInsideHouse_;
+    const Color wall{113, 104, 85, 255};
+    const Color roof{67, 43, 39, 255};
+    const Color dark{36, 39, 38, 255};
 
-    DrawCube(Vector3{-2.43F, 1.35F, -5.0F}, 0.14F, 2.7F, 3.5F, wall);
-    DrawCube(Vector3{2.43F, 1.35F, -5.0F}, 0.14F, 2.7F, 3.5F, wall);
-    DrawCube(Vector3{0.0F, 1.35F, -6.68F}, 5.0F, 2.7F, 0.14F, wall);
-    DrawCube(Vector3{-1.49F, 1.35F, -3.25F}, 2.02F, 2.7F, 0.14F, wall);
-    DrawCube(Vector3{1.49F, 1.35F, -3.25F}, 2.02F, 2.7F, 0.14F, wall);
-    DrawCube(Vector3{0.0F, 2.2F, -3.25F}, 0.96F, 1.0F, 0.14F, wall);
-    DrawCube(Vector3{-1.25F, 3.0F, -5.0F}, 2.9F, 0.18F, 4.1F, roof);
-    DrawCube(Vector3{1.25F, 3.0F, -5.0F}, 2.9F, 0.18F, 4.1F, roof);
-    DrawCube(Vector3{-0.56F, 0.85F, -3.18F}, 0.12F, 1.7F, 0.08F, dark);
-    DrawCube(Vector3{-1.65F, 1.55F, -3.16F}, 0.85F, 0.75F, 0.08F, Color{53, 83, 91, alpha});
-    DrawCube(Vector3{1.65F, 1.55F, -3.16F}, 0.85F, 0.75F, 0.08F, Color{53, 83, 91, alpha});
-    DrawCube(Vector3{0.0F, 0.05F, -3.1F}, 2.0F, 0.12F, 0.7F, Color{90, 83, 70, alpha});
+    // Ocultar las superficies que quedan entre la cámara y el interior.
+    // Es más fiable que usar transparencia con el búfer de profundidad.
+    const bool hideFront = inside && camera_.position.z > -5.0F;
+    const bool hideBack = inside && !hideFront;
+    const bool hideRight = inside && camera_.position.x > 0.0F;
+    const bool hideLeft = inside && !hideRight;
+
+    if (!hideLeft)
+        DrawCube(Vector3{-2.43F, 1.35F, -5.0F},
+                 0.14F, 2.7F, 3.5F, wall);
+
+    if (!hideRight)
+        DrawCube(Vector3{2.43F, 1.35F, -5.0F},
+                 0.14F, 2.7F, 3.5F, wall);
+
+    if (!hideBack)
+        DrawCube(Vector3{0.0F, 1.35F, -6.68F},
+                 5.0F, 2.7F, 0.14F, wall);
+
+    if (!hideFront) {
+        DrawCube(Vector3{-1.49F, 1.35F, -3.25F},
+                 2.02F, 2.7F, 0.14F, wall);
+        DrawCube(Vector3{1.49F, 1.35F, -3.25F},
+                 2.02F, 2.7F, 0.14F, wall);
+        DrawCube(Vector3{0.0F, 2.2F, -3.25F},
+                 0.96F, 1.0F, 0.14F, wall);
+
+        DrawCube(Vector3{-0.56F, 0.85F, -3.18F},
+                 0.12F, 1.7F, 0.08F, dark);
+        DrawCube(Vector3{-1.65F, 1.55F, -3.16F},
+                 0.85F, 0.75F, 0.08F, Color{53, 83, 91, 255});
+        DrawCube(Vector3{1.65F, 1.55F, -3.16F},
+                 0.85F, 0.75F, 0.08F, Color{53, 83, 91, 255});
+        DrawCube(Vector3{0.0F, 0.05F, -3.1F},
+                 2.0F, 0.12F, 0.7F, Color{90, 83, 70, 255});
+    }
+
+    // El techo permanece fuera de la casa y se oculta al entrar.
+    if (!inside) {
+        DrawCube(Vector3{-1.25F, 3.0F, -5.0F},
+                 2.9F, 0.18F, 4.1F, roof);
+        DrawCube(Vector3{1.25F, 3.0F, -5.0F},
+                 2.9F, 0.18F, 4.1F, roof);
+    }
 }
+
 void Game::drawTrees()
 {
     const Vector3 positions[] = {{-5.0F, 0.0F, -3.0F},{5.5F, 0.0F, -4.0F},{-6.0F, 0.0F, 3.0F},{6.5F, 0.0F, 4.0F},{-4.5F, 0.0F, 7.0F},{4.5F, 0.0F, 9.0F}};

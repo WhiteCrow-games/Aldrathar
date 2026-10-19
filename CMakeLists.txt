@@ -20,6 +20,7 @@ add_executable(Aldrathar
     src/core/Engine.cpp
     src/game/Game.cpp
     src/game/Player.cpp
+    src/game/DragonEntity.cpp
     src/renderer/Renderer.cpp
 )
 
