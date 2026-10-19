@@ -36,6 +36,22 @@ bool Renderer::initialize(int windowWidth, int windowHeight)
     if (!shaderReady_) {
         std::cerr
             << "AVISO: Shader retro no disponible; se usara renderizado normal.\n";
+    } else {
+        tiltShiftStrengthLoc_ =
+            GetShaderLocation(retroShader_, "tiltShiftStrength");
+
+        if (tiltShiftStrengthLoc_ >= 0) {
+            const float strength = 0.68F;
+            SetShaderValue(
+                retroShader_,
+                tiltShiftStrengthLoc_,
+                &strength,
+                SHADER_UNIFORM_FLOAT
+            );
+        } else {
+            std::cerr
+                << "AVISO: Uniform tiltShiftStrength no encontrado.\n";
+        }
     }
 
     return true;

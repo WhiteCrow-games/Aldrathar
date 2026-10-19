@@ -26,6 +26,7 @@ private:
 
     RenderTexture2D target_{};
     Shader retroShader_{};
+    int tiltShiftStrengthLoc_ = -1;
 
     int windowWidth_ = 0;
     int windowHeight_ = 0;
