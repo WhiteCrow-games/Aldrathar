@@ -61,11 +61,14 @@ void Game::initialize()
     player_.GetPosition() = Vector3{0.0F, 0.0F, 3.0F};
     dragon_.SetPosition(Vector3{-3.8F, 0.0F, -1.5F});
     isometric_ = false;
+    firstPerson_ = false;
+    cameraPitch_ = 0.0F;
     joystickTouchId_ = -1;
     cameraTouchId_ = -1;
     cameraTouchWasDown_ = false;
     cameraOrbitAngle_ = 0.0F;
     cameraTouchLastX_ = 0.0F;
+    cameraTouchLastY_ = 0.0F;
     cameraTouchIsButton_ = false;
     touchMove_ = Vector2{0.0F, 0.0F};
     camera_.up = Vector3{0.0F, 1.0F, 0.0F};
@@ -76,17 +79,15 @@ void Game::initialize()
 void Game::updateCamera()
 {
     const Vector3 p = player_.GetPosition();
+    camera_.up = Vector3{0.0F, 1.0F, 0.0F};
 
-    camera_.target = Vector3{
-        p.x, p.y + (isometric_ ? 0.65F : 0.9F), p.z
-    };
-
+    // Isométrica fija: no utiliza el ángulo de primera/tercera persona.
     if (isometric_) {
+        constexpr float angle = 0.785398163F;
         constexpr float radius = 12.0F;
         constexpr float height = 10.5F;
-        constexpr float offset = 0.785398163F;
-        const float angle = cameraOrbitAngle_ + offset;
 
+        camera_.target = Vector3{p.x, p.y + 0.65F, p.z};
         camera_.position = Vector3{
             p.x + std::sin(angle) * radius,
             p.y + height,
@@ -94,20 +95,40 @@ void Game::updateCamera()
         };
         camera_.projection = CAMERA_ORTHOGRAPHIC;
         camera_.fovy = 16.0F;
-    } else {
-        constexpr float radius = 6.8F;
-        constexpr float height = 3.7F;
-
-        camera_.position = Vector3{
-            p.x + std::sin(cameraOrbitAngle_) * radius,
-            p.y + height,
-            p.z + std::cos(cameraOrbitAngle_) * radius
-        };
-        camera_.projection = CAMERA_PERSPECTIVE;
-        camera_.fovy = 50.0F;
+        return;
     }
 
-    camera_.up = Vector3{0.0F, 1.0F, 0.0F};
+    const float yaw = cameraOrbitAngle_;
+    const float pitch = cameraPitch_;
+    const Vector3 forward{
+        std::sin(yaw) * std::cos(pitch),
+        std::sin(pitch),
+        -std::cos(yaw) * std::cos(pitch)
+    };
+
+    if (firstPerson_) {
+        camera_.position = Vector3{p.x, p.y + 1.55F, p.z};
+        camera_.target = Vector3{
+            camera_.position.x + forward.x,
+            camera_.position.y + forward.y,
+            camera_.position.z + forward.z
+        };
+        camera_.projection = CAMERA_PERSPECTIVE;
+        camera_.fovy = 70.0F;
+        return;
+    }
+
+    // Tercera persona: perspectiva detrás del jugador.
+    const Vector3 focus{p.x, p.y + 1.2F, p.z};
+    constexpr float distance = 5.0F;
+    camera_.target = focus;
+    camera_.position = Vector3{
+        focus.x - forward.x * distance,
+        focus.y - forward.y * distance + 0.5F,
+        focus.z - forward.z * distance
+    };
+    camera_.projection = CAMERA_PERSPECTIVE;
+    camera_.fovy = 55.0F;
 }
 
 void Game::update(float fixedDeltaTime)
@@ -117,7 +138,38 @@ void Game::update(float fixedDeltaTime)
     dragon_.Update(fixedDeltaTime);
     isInsideHouse_ = isPlayerInsideHouse(player_.GetPosition());
 
-    if (IsKeyPressed(KEY_V)) isometric_ = !isometric_;
+    const auto toggleIsometric = [this]() {
+        if (!isometric_) {
+            savedCameraOrbitAngle_ = cameraOrbitAngle_;
+            savedCameraPitch_ = cameraPitch_;
+            hasSavedCameraOrientation_ = true;
+            isometric_ = true;
+        } else {
+            if (hasSavedCameraOrientation_) {
+                cameraOrbitAngle_ = savedCameraOrbitAngle_;
+                cameraPitch_ = savedCameraPitch_;
+            }
+            isometric_ = false;
+        }
+    };
+
+    const auto leaveIsometric = [this]() {
+        if (isometric_) {
+            if (hasSavedCameraOrientation_) {
+                cameraOrbitAngle_ = savedCameraOrbitAngle_;
+                cameraPitch_ = savedCameraPitch_;
+            }
+            isometric_ = false;
+        }
+    };
+
+    if (IsKeyPressed(KEY_V)) {
+        leaveIsometric();
+        firstPerson_ = !firstPerson_;
+    }
+    if (IsKeyPressed(KEY_I)) {
+        toggleIsometric();
+    }
     float moveX = 0.0F, moveZ = 0.0F;
     if (IsKeyDown(KEY_A)) moveX -= 1.0F;
     if (IsKeyDown(KEY_D)) moveX += 1.0F;
@@ -148,10 +200,18 @@ void Game::update(float fixedDeltaTime)
             if (id == cameraTouchId_) {
                 cameraFound = true;
 
-                if (!cameraTouchIsButton_) {
+                if (!cameraTouchIsButton_ && !isometric_) {
                     const float dragX = p.x - cameraTouchLastX_;
+                    const float dragY = p.y - cameraTouchLastY_;
+
                     cameraOrbitAngle_ += dragX * 0.01F;
+                    cameraPitch_ = std::clamp(
+                        cameraPitch_ - dragY * 0.01F,
+                        -1.2F, 1.2F
+                    );
+
                     cameraTouchLastX_ = p.x;
+                    cameraTouchLastY_ = p.y;
                 }
             }
 
@@ -169,10 +229,16 @@ void Game::update(float fixedDeltaTime)
                 cameraTouchId_ = id;
                 cameraFound = true;
                 cameraTouchLastX_ = p.x;
-                cameraTouchIsButton_ = p.x > 255.0F && p.y > 160.0F;
+                cameraTouchLastY_ = p.y;
+                cameraTouchIsButton_ = p.x > 255.0F && p.y < 34.0F;
 
                 if (cameraTouchIsButton_) {
-                    isometric_ = !isometric_;
+                    if (p.x >= 291.0F) {
+                        toggleIsometric();
+                    } else {
+                        leaveIsometric();
+                        firstPerson_ = !firstPerson_;
+                    }
                 }
             }
         }
@@ -205,17 +271,31 @@ void Game::update(float fixedDeltaTime)
             if (!cameraTouchWasDown_) {
                 // Inicio de pulsación: CAM cambia de modo una sola vez.
                 cameraTouchLastX_ = p.x;
+                cameraTouchLastY_ = p.y;
                 cameraTouchIsButton_ =
-                    p.x > 255.0F && p.y > 160.0F;
+                    p.x > 255.0F && p.y < 34.0F;
 
                 if (cameraTouchIsButton_) {
-                    isometric_ = !isometric_;
+                    if (p.x >= 291.0F) {
+                        toggleIsometric();
+                    } else {
+                        leaveIsometric();
+                        firstPerson_ = !firstPerson_;
+                    }
                 }
-            } else if (!cameraTouchIsButton_) {
-                // Mantener pulsado y arrastrar gira la cámara.
+            } else if (!cameraTouchIsButton_ && !isometric_) {
+                // Solo primera persona: arrastrar para mirar alrededor.
                 const float dragX = p.x - cameraTouchLastX_;
+                const float dragY = p.y - cameraTouchLastY_;
+
                 cameraOrbitAngle_ += dragX * 0.01F;
+                cameraPitch_ = std::clamp(
+                    cameraPitch_ - dragY * 0.01F,
+                    -1.2F, 1.2F
+                );
+
                 cameraTouchLastX_ = p.x;
+                cameraTouchLastY_ = p.y;
             }
 
             cameraTouchWasDown_ = true;
@@ -240,8 +320,25 @@ void Game::update(float fixedDeltaTime)
         cameraTouchIsButton_ = false;
     }
 
+    // El joystick expresa movimiento relativo a la cámara.
     moveX += touchMove_.x;
     moveZ += touchMove_.y;
+
+    const float localX = moveX;
+    const float localZ = moveZ;
+
+    if (!isometric_) {
+        // Primera y tercera persona comparten orientación de movimiento.
+        // W/arriba debe avanzar exactamente en esa dirección.
+        const float yaw = cameraOrbitAngle_;
+        moveX = localX * std::cos(yaw) - localZ * std::sin(yaw);
+        moveZ = localX * std::sin(yaw) + localZ * std::cos(yaw);
+    } else {
+        // Movimiento isométrico fijo, independiente del giro libre.
+        constexpr float isoYaw = 0.785398163F;
+        moveX = localX * std::cos(isoYaw) + localZ * std::sin(isoYaw);
+        moveZ = -localX * std::sin(isoYaw) + localZ * std::cos(isoYaw);
+    }
 
     const float inputLength = std::sqrt(moveX * moveX + moveZ * moveZ);
 
@@ -315,31 +412,69 @@ void Game::render(float interpolation)
     drawTrees();
     drawBushes();
     dragon_.Draw();
-    drawCharacter();
+
+    if (isometric_ || !firstPerson_) {
+        drawCharacter();
+    }
     EndMode3D();
-    DrawRectangle(5, 5, 205, 52, Color{0, 0, 0, 210});
-    DrawText("ALDRATHAR // OUTDOOR", 10, 10, 10, RAYWHITE);
-    if (isometric_) DrawText("CAMARA: ISOMETRICA", 10, 24, 8, SKYBLUE);
-    else DrawText("CAMARA: TERCERA PERSONA", 10, 24, 8, SKYBLUE);
-    DrawText(isInsideHouse_ ? "DENTRO: PAREDES FADE" : "FUERA", 10, 36, 8, isInsideHouse_? GREEN : LIGHTGRAY);
-    DrawText("ARBOLES: TRONCO BLOQUEA / COPA FADE", 10, 46, 8, LIGHTGRAY);
-    DrawText("PROTOTIPO 3D", 8, 226, 8, LIGHTGRAY);
+
+    // Sin rectángulo negro: texto compacto directamente sobre el juego.
+    DrawText("ALDRATHAR", 5, 5, 8, RAYWHITE);
+    DrawText(
+        isometric_ ? "CAM: I" : (firstPerson_ ? "CAM: 1P" : "CAM: 3P"),
+        5, 16, 7, SKYBLUE
+    );
+    DrawText(
+        isInsideHouse_ ? "INTERIOR: FADE" : "EXTERIOR",
+        5, 26, 7, isInsideHouse_ ? GREEN : LIGHTGRAY
+    );
+    DrawText("TRONCOS: COLISION", 5, 36, 6, LIGHTGRAY);
+    DrawText("PROTOTIPO 3D", 5, 226, 6, LIGHTGRAY);
     drawTouchControls();
 }
 
 void Game::drawTouchControls()
 {
-    DrawCircleV(joystickCenter_, JOYSTICK_RADIUS + 5.0F, Color{0, 0, 0, 100});
-    DrawCircleV(joystickCenter_, JOYSTICK_RADIUS, Color{170, 180, 170, 100});
-    DrawCircleLines(static_cast<int>(joystickCenter_.x), static_cast<int>(joystickCenter_.y), JOYSTICK_RADIUS, Color{220, 225, 210, 210});
-    DrawCircleV(joystickKnob_, KNOB_RADIUS, Color{225, 225, 210, 220});
-    const Vector2 buttonCenter{282.0F, 184.0F};
-    DrawCircleV(buttonCenter, 24.0F, Color{0, 0, 0, 120});
-    DrawCircleV(buttonCenter, 19.0F, Color{110, 130, 120, 210});
-    DrawCircleLines(282, 184, 19.0F, RAYWHITE);
-    DrawText("CAM", 269, 180, 9, RAYWHITE);
-    DrawText("ARRASTRA PARA GIRAR", 184, 145, 7, Color{220, 225, 210, 190});
+    // Joystick original conservado.
+    DrawCircleV(
+        joystickCenter_, JOYSTICK_RADIUS + 5.0F,
+        Color{0, 0, 0, 100}
+    );
+    DrawCircleV(
+        joystickCenter_, JOYSTICK_RADIUS,
+        Color{170, 180, 170, 100}
+    );
+    DrawCircleLines(
+        static_cast<int>(joystickCenter_.x),
+        static_cast<int>(joystickCenter_.y),
+        JOYSTICK_RADIUS,
+        Color{220, 225, 210, 210}
+    );
+    DrawCircleV(
+        joystickKnob_, KNOB_RADIUS,
+        Color{225, 225, 210, 220}
+    );
+
+    // Botón 1P/3P: representa la vista contraria a la activa.
+    DrawCircleV(Vector2{273.0F, 16.0F}, 9.0F, Color{35, 42, 38, 170});
+    DrawCircleLines(273, 16, 8.0F, RAYWHITE);
+    DrawText(firstPerson_ ? "3" : "1", 270, 11, 10, RAYWHITE);
+
+    // Botón independiente de cámara isométrica.
+    DrawCircleV(
+        Vector2{302.0F, 16.0F}, 9.0F,
+        isometric_ ? Color{150, 170, 120, 230}
+                   : Color{35, 42, 38, 170}
+    );
+    DrawCircleLines(302, 16, 8.0F, RAYWHITE);
+    DrawText("I", 299, 11, 10, RAYWHITE);
+
+    if (!isometric_) {
+        DrawText("ARRASTRA PARA MIRAR", 208, 226, 6,
+                 Color{230, 230, 220, 170});
+    }
 }
+
 void Game::drawOutdoor()
 {
     DrawPlane(Vector3{0.0F, -0.05F, 0.0F}, Vector2{32.0F, 32.0F}, Color{63, 78, 53, 255});

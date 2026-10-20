@@ -28,6 +28,8 @@ private:
     float movementVelocityX_{0.0F};
     float movementVelocityZ_{0.0F};
     bool isometric_{false};
+    bool firstPerson_{false};
+    float cameraPitch_{0.0F};
     Vector2 joystickCenter_{48.0f, 192.0f};
     Vector2 joystickKnob_{48.0f, 192.0f};
     Vector2 touchMove_{0,0};
@@ -35,7 +37,11 @@ private:
     int cameraTouchId_{-1};
     bool cameraTouchWasDown_{false};
     float cameraOrbitAngle_{0.0F};
+    float savedCameraOrbitAngle_{0.0F};
+    float savedCameraPitch_{0.0F};
+    bool hasSavedCameraOrientation_{false};
     float cameraTouchLastX_{0.0F};
+    float cameraTouchLastY_{0.0F};
     bool cameraTouchIsButton_{false};
     Aldrathar::DragonEntity dragon_{};
     bool isInsideHouse_{false};
