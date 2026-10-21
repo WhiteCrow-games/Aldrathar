@@ -3,6 +3,7 @@
 #include <raymath.h>
 #include <rlgl.h>
 #include "game/Player.hpp"
+#include "game/CollisionWorld.hpp"
 #include "game/DragonEntity.hpp"
 
 class Game {
@@ -22,6 +23,7 @@ private:
     void drawRoom();
     void drawFurniture();
     Camera3D camera_{};
+    Aldrathar::CollisionWorld collisionWorld_{};
     Aldrathar::Player player_{};
     Aldrathar::Entity* playerEntity_{&player_};
     float elapsedTime_{0.0f};
