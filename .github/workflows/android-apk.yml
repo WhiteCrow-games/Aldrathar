@@ -32,7 +32,14 @@ jobs:
         shell: bash
         run: |
           set -e
-          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "cmake;3.31.1" "ndk;27.2.12479018"
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "cmake;3.31.1"
+
+          if ! sdkmanager "ndk;27.2.12479018"; then
+            echo "Primer intento de instalación del NDK falló; limpiando paquete incompleto."
+            rm -rf "$ANDROID_SDK_ROOT/ndk/27.2.12479018"
+            rm -rf "$ANDROID_SDK_ROOT/.temp"
+            sdkmanager --install "ndk;27.2.12479018"
+          fi
 
       - name: Configurar Gradle
         uses: gradle/actions/setup-gradle@v4
