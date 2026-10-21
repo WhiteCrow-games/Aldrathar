@@ -3,40 +3,9 @@
 #include <cmath>
 
 namespace {
+constexpr float TRUNK_RADIUS = 0.28F;
 constexpr float JOYSTICK_RADIUS = 28.0F;
 constexpr float KNOB_RADIUS = 11.0F;
-constexpr float TRUNK_RADIUS = 0.28F; // Solo tronco bloquea, no follaje
-constexpr float PLAYER_COLLISION_RADIUS = 0.25F;
-constexpr float TREE_COLLISION_RADIUS =
-    TRUNK_RADIUS + PLAYER_COLLISION_RADIUS;
-
-bool pointInCircle(Vector2 point, Vector2 center, float radius)
-{
-    const float dx = point.x - center.x;
-    const float dy = point.y - center.y;
-    return dx * dx + dy * dy <= radius * radius;
-}
-
-bool blockedAt(float x, float z)
-{
-    if (x < -13.0F || x > 13.0F || z < -13.0F || z > 13.0F) return true;
-
-    // Solo troncos bloquean, follaje no
-    const Vector2 trunks[] = {
-        {-5.0F, -3.0F}, {5.5F, -4.0F}, {-6.0F, 3.0F},
-        {6.5F, 4.0F}, {-4.5F, 7.0F}, {4.5F, 9.0F}
-    };
-    for (const Vector2& t : trunks) {
-        if (pointInCircle(Vector2{x, z}, t, TREE_COLLISION_RADIUS)) return true;
-    }
-
-    const bool insideHouseLength = z > -6.95F && z < -3.0F;
-    if (insideHouseLength && (std::abs(x - 2.43F) < 0.40F || std::abs(x + 2.43F) < 0.40F)) return true;
-    if (std::abs(z + 6.68F) < 0.40F && std::abs(x) < 2.85F) return true;
-    if (std::abs(z + 3.25F) < 0.40F && std::abs(x) > 0.17F && std::abs(x) < 2.85F) return true;
-    return false;
-}
-
 bool isPlayerInsideHouse(Vector3 p) {
     return p.x > -2.3F && p.x < 2.3F && p.z > -6.5F && p.z < -3.3F;
 }
@@ -372,7 +341,7 @@ void Game::update(float fixedDeltaTime)
     const float nextX =
         player_.GetPosition().x + movementVelocityX_ * fixedDeltaTime;
 
-    if (!blockedAt(nextX, player_.GetPosition().z)) {
+    if (!collisionWorld_.IsBlocked(nextX, player_.GetPosition().z)) {
         player_.GetPosition().x = nextX;
     } else {
         movementVelocityX_ = 0.0F;
@@ -381,7 +350,7 @@ void Game::update(float fixedDeltaTime)
     const float nextZ =
         player_.GetPosition().z + movementVelocityZ_ * fixedDeltaTime;
 
-    if (!blockedAt(player_.GetPosition().x, nextZ)) {
+    if (!collisionWorld_.IsBlocked(player_.GetPosition().x, nextZ)) {
         player_.GetPosition().z = nextZ;
     } else {
         movementVelocityZ_ = 0.0F;

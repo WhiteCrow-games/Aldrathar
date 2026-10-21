@@ -19,6 +19,7 @@ add_executable(Aldrathar
     src/main.cpp
     src/core/Engine.cpp
     src/game/Game.cpp
+    src/game/CollisionWorld.cpp
     src/game/Player.cpp
     src/game/DragonEntity.cpp
     src/renderer/Renderer.cpp
