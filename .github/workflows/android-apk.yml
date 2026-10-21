@@ -27,12 +27,12 @@ jobs:
         uses: android-actions/setup-android@v4
         with:
           accept-android-sdk-licenses: true
-          packages: |
-            platform-tools
-            platforms;android-35
-            build-tools;35.0.0
-            cmake;3.22.1
-            ndk;27.2.12479018
+
+      - name: Instalar herramientas Android
+        shell: bash
+        run: |
+          set -e
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "cmake;3.22.1" "ndk;27.2.12479018"
 
       - name: Configurar Gradle
         uses: gradle/actions/setup-gradle@v4
