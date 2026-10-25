@@ -11,15 +11,6 @@ bool isPlayerInsideHouse(Vector3 p) {
 }
 
 
-unsigned char getFoliageAlpha(Vector3 player, Vector3 tree) {
-    float dx = player.x - tree.x;
-    float dz = player.z - tree.z;
-    float dist = std::sqrt(dx*dx + dz*dz);
-    // Si estas a <1.8m detrás del árbol, se desvanece
-    if (dist < 1.8F) return 90;
-    if (dist < 2.8F) return 170;
-    return 255;
-}
 }
 
 void Game::initialize()
@@ -30,7 +21,6 @@ void Game::initialize()
     player_.GetPosition() = Vector3{0.0F, 0.0F, 3.0F};
     dragon_.SetPosition(Vector3{-3.8F, 0.0F, -1.5F});
     isometric_ = false;
-    firstPerson_ = false;
     cameraPitch_ = 0.0F;
     joystickTouchId_ = -1;
     cameraTouchId_ = -1;
@@ -50,7 +40,6 @@ void Game::updateCamera()
     const Vector3 p = player_.GetPosition();
     camera_.up = Vector3{0.0F, 1.0F, 0.0F};
 
-    // Isométrica fija: no utiliza el ángulo de primera/tercera persona.
     if (isometric_) {
         constexpr float angle = 0.785398163F;
         constexpr float radius = 12.0F;
@@ -75,29 +64,14 @@ void Game::updateCamera()
         -std::cos(yaw) * std::cos(pitch)
     };
 
-    if (firstPerson_) {
-        camera_.position = Vector3{p.x, p.y + 1.55F, p.z};
-        camera_.target = Vector3{
-            camera_.position.x + forward.x,
-            camera_.position.y + forward.y,
-            camera_.position.z + forward.z
-        };
-        camera_.projection = CAMERA_PERSPECTIVE;
-        camera_.fovy = 70.0F;
-        return;
-    }
-
-    // Tercera persona: perspectiva detrás del jugador.
-    const Vector3 focus{p.x, p.y + 1.2F, p.z};
-    constexpr float distance = 5.0F;
-    camera_.target = focus;
-    camera_.position = Vector3{
-        focus.x - forward.x * distance,
-        focus.y - forward.y * distance + 0.5F,
-        focus.z - forward.z * distance
+    camera_.position = Vector3{p.x, p.y + 1.55F, p.z};
+    camera_.target = Vector3{
+        camera_.position.x + forward.x,
+        camera_.position.y + forward.y,
+        camera_.position.z + forward.z
     };
     camera_.projection = CAMERA_PERSPECTIVE;
-    camera_.fovy = 55.0F;
+    camera_.fovy = 70.0F;
 }
 
 void Game::update(float fixedDeltaTime)
@@ -107,38 +81,10 @@ void Game::update(float fixedDeltaTime)
     dragon_.Update(fixedDeltaTime);
     isInsideHouse_ = isPlayerInsideHouse(player_.GetPosition());
 
-    const auto toggleIsometric = [this]() {
-        if (!isometric_) {
-            savedCameraOrbitAngle_ = cameraOrbitAngle_;
-            savedCameraPitch_ = cameraPitch_;
-            hasSavedCameraOrientation_ = true;
-            isometric_ = true;
-        } else {
-            if (hasSavedCameraOrientation_) {
-                cameraOrbitAngle_ = savedCameraOrbitAngle_;
-                cameraPitch_ = savedCameraPitch_;
-            }
-            isometric_ = false;
-        }
-    };
-
-    const auto leaveIsometric = [this]() {
-        if (isometric_) {
-            if (hasSavedCameraOrientation_) {
-                cameraOrbitAngle_ = savedCameraOrbitAngle_;
-                cameraPitch_ = savedCameraPitch_;
-            }
-            isometric_ = false;
-        }
-    };
-
-    if (IsKeyPressed(KEY_V)) {
-        leaveIsometric();
-        firstPerson_ = !firstPerson_;
+    if (IsKeyPressed(KEY_V) || IsKeyPressed(KEY_I)) {
+        isometric_ = !isometric_;
     }
-    if (IsKeyPressed(KEY_I)) {
-        toggleIsometric();
-    }
+
     float moveX = 0.0F, moveZ = 0.0F;
     if (IsKeyDown(KEY_A)) moveX -= 1.0F;
     if (IsKeyDown(KEY_D)) moveX += 1.0F;
@@ -199,15 +145,10 @@ void Game::update(float fixedDeltaTime)
                 cameraFound = true;
                 cameraTouchLastX_ = p.x;
                 cameraTouchLastY_ = p.y;
-                cameraTouchIsButton_ = p.x > 255.0F && p.y < 34.0F;
+                cameraTouchIsButton_ = p.x > 285.0F && p.y < 34.0F;
 
                 if (cameraTouchIsButton_) {
-                    if (p.x >= 291.0F) {
-                        toggleIsometric();
-                    } else {
-                        leaveIsometric();
-                        firstPerson_ = !firstPerson_;
-                    }
+                    isometric_ = !isometric_;
                 }
             }
         }
@@ -242,15 +183,10 @@ void Game::update(float fixedDeltaTime)
                 cameraTouchLastX_ = p.x;
                 cameraTouchLastY_ = p.y;
                 cameraTouchIsButton_ =
-                    p.x > 255.0F && p.y < 34.0F;
+                    p.x > 285.0F && p.y < 34.0F;
 
                 if (cameraTouchIsButton_) {
-                    if (p.x >= 291.0F) {
-                        toggleIsometric();
-                    } else {
-                        leaveIsometric();
-                        firstPerson_ = !firstPerson_;
-                    }
+                    isometric_ = !isometric_;
                 }
             } else if (!cameraTouchIsButton_ && !isometric_) {
                 // Solo primera persona: arrastrar para mirar alrededor.
@@ -297,7 +233,7 @@ void Game::update(float fixedDeltaTime)
     const float localZ = moveZ;
 
     if (!isometric_) {
-        // Primera y tercera persona comparten orientación de movimiento.
+        // El movimiento de primera persona sigue la orientación de la cámara.
         // W/arriba debe avanzar exactamente en esa dirección.
         const float yaw = cameraOrbitAngle_;
         moveX = localX * std::cos(yaw) - localZ * std::sin(yaw);
@@ -382,7 +318,7 @@ void Game::render(float interpolation)
     drawBushes();
     dragon_.Draw();
 
-    if (isometric_ || !firstPerson_) {
+    if (isometric_) {
         drawCharacter();
     }
     EndMode3D();
@@ -390,11 +326,11 @@ void Game::render(float interpolation)
     // Sin rectángulo negro: texto compacto directamente sobre el juego.
     DrawText("ALDRATHAR", 5, 5, 8, RAYWHITE);
     DrawText(
-        isometric_ ? "CAM: I" : (firstPerson_ ? "CAM: 1P" : "CAM: 3P"),
+        isometric_ ? "CAM: I" : "CAM: 1P",
         5, 16, 7, SKYBLUE
     );
     DrawText(
-        isInsideHouse_ ? "INTERIOR: FADE" : "EXTERIOR",
+        isInsideHouse_ ? "INTERIOR" : "EXTERIOR",
         5, 26, 7, isInsideHouse_ ? GREEN : LIGHTGRAY
     );
     DrawText("TRONCOS: COLISION", 5, 36, 6, LIGHTGRAY);
@@ -424,10 +360,6 @@ void Game::drawTouchControls()
         Color{225, 225, 210, 220}
     );
 
-    // Botón 1P/3P: representa la vista contraria a la activa.
-    DrawCircleV(Vector2{273.0F, 16.0F}, 9.0F, Color{35, 42, 38, 170});
-    DrawCircleLines(273, 16, 8.0F, RAYWHITE);
-    DrawText(firstPerson_ ? "3" : "1", 270, 11, 10, RAYWHITE);
 
     // Botón independiente de cámara isométrica.
     DrawCircleV(
@@ -458,10 +390,10 @@ void Game::drawHouse()
 
     // Ocultar las superficies que quedan entre la cámara y el interior.
     // Es más fiable que usar transparencia con el búfer de profundidad.
-    const bool hideFront = inside && camera_.position.z > -5.0F;
-    const bool hideBack = inside && !hideFront;
-    const bool hideRight = inside && camera_.position.x > 0.0F;
-    const bool hideLeft = inside && !hideRight;
+    const bool hideFront = inside && isometric_ && camera_.position.z > -5.0F;
+    const bool hideBack = inside && isometric_ && !hideFront;
+    const bool hideRight = inside && isometric_ && camera_.position.x > 0.0F;
+    const bool hideLeft = inside && isometric_ && !hideRight;
 
     if (!hideLeft)
         DrawCube(Vector3{-2.43F, 1.35F, -5.0F},
@@ -476,21 +408,37 @@ void Game::drawHouse()
                  5.0F, 2.7F, 0.14F, wall);
 
     if (!hideFront) {
-        DrawCube(Vector3{-1.49F, 1.35F, -3.25F},
-                 2.02F, 2.7F, 0.14F, wall);
-        DrawCube(Vector3{1.49F, 1.35F, -3.25F},
-                 2.02F, 2.7F, 0.14F, wall);
-        DrawCube(Vector3{0.0F, 2.2F, -3.25F},
-                 0.96F, 1.0F, 0.14F, wall);
+        const Color wood{91, 58, 37, 255};
+        const Color divider{220, 220, 202, 255};
 
-        DrawCube(Vector3{-0.56F, 0.85F, -3.18F},
-                 0.12F, 1.7F, 0.08F, dark);
-        DrawCube(Vector3{-1.65F, 1.55F, -3.16F},
-                 0.85F, 0.75F, 0.08F, Color{53, 83, 91, 255});
-        DrawCube(Vector3{1.65F, 1.55F, -3.16F},
-                 0.85F, 0.75F, 0.08F, Color{53, 83, 91, 255});
-        DrawCube(Vector3{0.0F, 0.05F, -3.1F},
-                 2.0F, 0.12F, 0.7F, Color{90, 83, 70, 255});
+        // Tramos laterales y entre puerta y ventanas.
+        DrawCube({-2.2875F, 1.35F, -3.25F}, 0.425F, 2.7F, 0.14F, wall);
+        DrawCube({ 2.2875F, 1.35F, -3.25F}, 0.425F, 2.7F, 0.14F, wall);
+        DrawCube({-0.8525F, 1.35F, -3.25F}, 0.745F, 2.7F, 0.14F, wall);
+        DrawCube({ 0.8525F, 1.35F, -3.25F}, 0.745F, 2.7F, 0.14F, wall);
+
+        // Parte inferior y superior de cada hueco de ventana.
+        for (float side : {-1.0F, 1.0F}) {
+            const float x = side * 1.65F;
+            DrawCube({x, 0.5875F, -3.25F}, 0.85F, 1.175F, 0.14F, wall);
+            DrawCube({x, 2.3125F, -3.25F}, 0.85F, 0.775F, 0.14F, wall);
+
+            // Marco de madera.
+            DrawCube({x - 0.405F, 1.55F, -3.16F}, 0.06F, 0.82F, 0.10F, wood);
+            DrawCube({x + 0.405F, 1.55F, -3.16F}, 0.06F, 0.82F, 0.10F, wood);
+            DrawCube({x, 1.175F, -3.16F}, 0.85F, 0.06F, 0.10F, wood);
+            DrawCube({x, 1.925F, -3.16F}, 0.85F, 0.06F, 0.10F, wood);
+
+            // Divisiones finas de aspecto claro.
+            DrawCube({x, 1.55F, -3.13F}, 0.025F, 0.68F, 0.035F, divider);
+            DrawCube({x, 1.55F, -3.13F}, 0.72F, 0.025F, 0.035F, divider);
+        }
+
+        // Dintel de la puerta; el hueco inferior permanece abierto.
+        DrawCube({0.0F, 2.2F, -3.25F}, 0.96F, 1.0F, 0.14F, wall);
+        DrawCube({-0.56F, 0.85F, -3.18F}, 0.12F, 1.7F, 0.08F, dark);
+        DrawCube({0.0F, 0.05F, -3.1F}, 2.0F, 0.12F, 0.7F,
+                 Color{90, 83, 70, 255});
     }
 
     // El techo permanece fuera de la casa y se oculta al entrar.
@@ -508,22 +456,20 @@ void Game::drawTrees()
     for (const Vector3& p : positions) {
         // Tronco siempre solido y bloquea
         DrawCylinder(Vector3{p.x, 0.8F, p.z}, TRUNK_RADIUS, TRUNK_RADIUS*0.8F, 1.6F, 8, Color{91, 65, 43, 255});
-        // Copa con fade si jugador detrás
-        unsigned char alpha = getFoliageAlpha(player_.GetPosition(), p);
-        Color leaf1{42, 76, 43, alpha};
-        Color leaf2{52, 88, 47, alpha};
+        // Follaje opaco; la profundidad determina qué queda delante.
+        Color leaf1{42, 76, 43, 255};
+        Color leaf2{52, 88, 47, 255};
         DrawSphere(Vector3{p.x, 2.0F, p.z}, 1.0F, leaf1);
         DrawSphere(Vector3{p.x + 0.35F, 2.35F, p.z}, 0.65F, leaf2);
     }
 }
 void Game::drawBushes()
 {
-    // Arbustos no bloquean, pero tambien hacen fade
+    // Los arbustos son opacos y no bloquean el movimiento.
     const Vector3 bushes[] = {{2.0F,0,-1.0F},{-2.0F,0,1.0F},{3.5F,0,6.0F}};
     for (auto &b : bushes) {
-        unsigned char alpha = getFoliageAlpha(player_.GetPosition(), b);
-        DrawSphere(Vector3{b.x, 0.3F, b.z}, 0.45F, Color{55,85,45,alpha});
-        DrawSphere(Vector3{b.x+0.2F,0.4F,b.z}, 0.35F, Color{65,95,50,alpha});
+        DrawSphere(Vector3{b.x, 0.3F, b.z}, 0.45F, Color{55, 85, 45, 255});
+        DrawSphere(Vector3{b.x + 0.2F, 0.4F, b.z}, 0.35F, Color{65, 95, 50, 255});
     }
 }
 void Game::drawCharacter()
