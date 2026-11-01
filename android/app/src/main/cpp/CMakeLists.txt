@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+# Configuración de raylib para Android
 set(PLATFORM "Android" CACHE STRING "" FORCE)
 set(OPENGL_VERSION "ES 2.0" CACHE STRING "" FORCE)
 set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -25,6 +26,13 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(raylib)
 
+# Biblioteca independiente de lógica del juego
+add_subdirectory(
+    ${CMAKE_CURRENT_LIST_DIR}/../../../../../core
+    ${CMAKE_CURRENT_BINARY_DIR}/aldrathar-core
+)
+
+# Biblioteca nativa de Android
 add_library(main SHARED
     ../../../../../src/main.cpp
     ../../../../../src/core/Engine.cpp
@@ -46,6 +54,7 @@ target_compile_options(main PRIVATE
 )
 
 target_link_libraries(main PRIVATE
+    AldratharCore
     raylib
     android
     log
