@@ -10,11 +10,19 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Pruebas del proyecto
+include(CTest)
+
+# Dependencias gráficas
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(RAYLIB REQUIRED IMPORTED_TARGET raylib)
 find_package(glm CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 
+# Biblioteca independiente del juego
+add_subdirectory(core)
+
+# Ejecutable principal
 add_executable(Aldrathar
     src/main.cpp
     src/core/Engine.cpp
@@ -28,6 +36,7 @@ add_executable(Aldrathar
 target_include_directories(Aldrathar PRIVATE include)
 
 target_link_libraries(Aldrathar PRIVATE
+    AldratharCore
     PkgConfig::RAYLIB
     glm::glm
     nlohmann_json::nlohmann_json
@@ -47,3 +56,4 @@ message(STATUS "Aldrathar: C++20")
 message(STATUS "Aldrathar: raylib")
 message(STATUS "Aldrathar: GLM")
 message(STATUS "Aldrathar: nlohmann-json")
+message(STATUS "Aldrathar: AldratharCore")

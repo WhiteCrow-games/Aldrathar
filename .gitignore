@@ -29,3 +29,10 @@ build.ninja
 .vscode/
 .idea/
 .DS_Store
+
+# Ejecutables locales
+/bin/
+
+# Configuración local de Android
+/android/local.properties
+/android/.gradle/
